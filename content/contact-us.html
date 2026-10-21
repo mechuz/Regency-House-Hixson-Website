@@ -21,14 +21,15 @@ nav: contact
         <p>When you call, you reach the community here in Hixson &mdash; never a national call centre, and never a referral service that passes your details to a dozen facilities.</p>
 
         <!--
-          LEAD DELIVERY — FormSubmit.
-          The address below must be activated once: submit the form, then click
-          the activation link FormSubmit emails. Add a second address to _cc so
-          one person leaving cannot silently break lead delivery.
-          See TRACKING-SETUP.md, "Lead form delivery".
+          LEAD DELIVERY — FormSubmit, same arrangement as kirbygateliving.com.
+          Primary (action) = mechuz@medhcp.com, already activated with FormSubmit,
+          so delivery works with no activation step. The facility receives every
+          lead via _cc. AT HANDOVER: swap the two — put the facility address in
+          action and Max's in _cc — then submit once and click the activation
+          link FormSubmit emails to the new primary. See TRACKING-SETUP.md.
         -->
-        <form class="contact-form" action="https://formsubmit.co/info@hixsonregencyhouse.com" method="POST" style="margin-top:2rem">
-          <input type="hidden" name="_cc" value="SECOND_LEAD_EMAIL">
+        <form class="contact-form" action="https://formsubmit.co/mechuz@medhcp.com" method="POST" style="margin-top:2rem">
+          <input type="hidden" name="_cc" value="info@hixsonregencyhouse.com">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_subject" value="NEW LEAD — hixsonregencyhouse.com contact form">
           <input type="hidden" name="_autoresponse" value="Thank you for contacting Regency House. Your message has reached us, and a member of our team will telephone you shortly. Should you prefer to speak now, we are available at any hour on (423) 870-0050. Choosing care for someone you love is among life's weightier decisions, and it seldom keeps to a tidy timeline. Whether you require an apartment within the week or are simply gathering information for the future, we will meet you where you are, and speak candidly about care, availability and cost. Private tours are offered daily by appointment, and the finest of them conclude in the dining room. With warm regards, Regency House - 2062 Hamill Road, Hixson, TN 37343 - (423) 870-0050 - www.hixsonregencyhouse.com">
