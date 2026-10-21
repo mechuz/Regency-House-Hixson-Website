@@ -1,0 +1,8 @@
+# Legacy URLs on hixsonregencyhouse.com.
+# build.py turns each into a noindex + canonical redirect stub, because
+# GitHub Pages does not read this file natively.
+#
+# /lander was the previous paid-traffic landing page. Anything still pointing
+# at it — a live ad, a bookmark, a directory listing — lands on the home page
+# instead of a 404.
+/lander   /
