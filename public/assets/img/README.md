@@ -30,6 +30,20 @@ House is not licensed for memory care. Those originals must not be used
 anywhere — not on the site, the Google Business Profile, or in ad images. The
 crops keep the building and lose the signs.
 
+## Gallery photos — in place
+
+Twelve resident and event photographs (supplied 21 Oct 2026) live in
+`gallery/` as `<slug>.webp` (1400px long edge, opened in the lightbox) and
+`<slug>-thumb.webp` (720px, shown in the grid). They appear on `/gallery/` and
+in the four-photo strip on the home page. To add one: save both sizes under a
+new slug, add a `<li class="gallery-item">` to `content/gallery.html`, rebuild.
+
+**Consent.** Every resident in these photographs is identifiable. Keep a signed
+photo release for each one on file at the facility, and remove the photo from
+`content/gallery.html` (and the home strip in `content/index.html`) if a
+resident or family withdraws permission. The footer states that residents
+appear with their permission.
+
 Still wanted when convenient: a courtyard or outdoor seating photo, and an
 activity-room shot with people in it (with written consent for any identifiable
 face).

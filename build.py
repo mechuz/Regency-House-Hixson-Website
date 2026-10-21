@@ -31,7 +31,7 @@ TEMPLATE = (ROOT / "templates" / "base.html").read_text()
 CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 
-NAV_KEYS = ["home", "about", "al", "respite", "amenities", "rates", "reviews", "contact"]
+NAV_KEYS = ["home", "about", "al", "respite", "amenities", "gallery", "rates", "reviews", "contact"]
 
 ICONS = {
  "dining":   '<path d="M5 3v7a3 3 0 0 0 6 0V3"/><path d="M8 3v18"/><path d="M18 3c-2.2 0-3.5 2.8-3.5 6v4H18v8"/>',
