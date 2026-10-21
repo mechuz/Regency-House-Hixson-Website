@@ -22,13 +22,13 @@ nav: contact
 
         <!--
           LEAD DELIVERY — FormSubmit, same arrangement as kirbygateliving.com.
-          Primary (action) = mechuz@medhcp.com, already activated with FormSubmit,
-          so delivery works with no activation step. The facility receives every
-          lead via _cc. AT HANDOVER: swap the two — put the facility address in
+          Primary (action) = FormSubmit's hashed alias for mechuz@medhcp.com, so the
+          address is not exposed in page source. Activated for this domain on
+          21 Oct 2026. The facility receives every lead via _cc. AT HANDOVER: swap the two — put the facility address in
           action and Max's in _cc — then submit once and click the activation
           link FormSubmit emails to the new primary. See TRACKING-SETUP.md.
         -->
-        <form class="contact-form" action="https://formsubmit.co/mechuz@medhcp.com" method="POST" style="margin-top:2rem">
+        <form class="contact-form" action="https://formsubmit.co/51b2551f2845c13f18729befdff08eb7" method="POST" style="margin-top:2rem">
           <input type="hidden" name="_cc" value="info@hixsonregencyhouse.com">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_subject" value="NEW LEAD — hixsonregencyhouse.com contact form">
