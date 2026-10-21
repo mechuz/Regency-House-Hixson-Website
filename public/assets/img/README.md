@@ -5,16 +5,34 @@ hero that is designed to work without a photograph at all. So it is safe to
 publish before the shoot — but photos are the biggest single conversion lever on
 a senior living site. Get them done in week one.
 
-## Shot list
+## Photos — five are ready to download, one needs a camera
 
-| Save as | What it shows | Appears on |
+Five representative images were generated in the practice's Canva account on
+21 Oct 2026. They are **not photographs of Regency House**; the site's legal
+footer already discloses "representative stock images", which covers them.
+The sixth slot — the building itself — must be a real photograph, and the
+About page deliberately shows a placeholder until one exists.
+
+| Save as (exact) | Canva media ID | Appears on |
 |---|---|---|
-| `exterior-front.webp` | Front entrance from the parking lot, straight on | Home, About |
-| `apartment.webp` | A furnished resident apartment, lights on, curtains open | Assisted Living |
-| `dining.webp` | The dining room **with residents and staff in it**, mid-meal | Home |
-| `activity.webp` | An activity or common room, people mid-activity | Amenities |
-| `caregiver.webp` | A staff member with a resident, warm and candid | Respite Care |
-| `courtyard.webp` | The courtyard on a good day | Home (map slot alternative) |
+| `courtyard.webp` | `MAHYqwOzaf4` — two residents on a bench | Home (welcome) |
+| `dining.webp` | `MAHYq107-bg` — resident laughing at lunch | Home (daily life) |
+| `apartment.webp` | `MAHYq6gZeS4` — furnished studio | Assisted Living |
+| `caregiver.webp` | `MAHYq-TkQOg` — caregiver with a resident | Respite |
+| `activity.webp` | `MAHYq7GcHa8` — cards and coffee in the common room | Amenities |
+| `exterior-front.webp` | **take this one** — the real front entrance | About |
+
+### Getting the five Canva files onto the site (two minutes)
+1. Open each link: `https://www.canva.com/M/<media ID>` (e.g.
+   `https://www.canva.com/M/MAHYq107-bg`). Download at full size.
+2. Rename to the filename in the table. WebP is preferred; JPG also works.
+3. Drop them into this folder (`public/assets/img/`), run `python3 build.py`,
+   commit, push. Each slot switches from placeholder to photo on its own —
+   the page markup uses `{{photo:name|alt}}`, which only renders an `<img>`
+   when the file exists.
+
+Keep each under ~400KB: `sips -s format jpeg -s formatOptions 70
+--resampleWidth 1600 in.jpg --out out.jpg` on a Mac, or any image optimiser.
 
 ### Shooting notes
 - Morning or late afternoon. Midday sun blows out exteriors.

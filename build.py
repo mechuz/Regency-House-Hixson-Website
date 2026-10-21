@@ -96,6 +96,23 @@ def faq_schema(body: str) -> str:
             + "\n  </script>\n")
 
 
+PHOTO_RE = re.compile(r"\{\{photo:([a-z0-9-]+)\|([^}]*)\}\}")
+
+
+def photo(m):
+    """{{photo:name|alt text}} -> <img> when assets/img/name.(webp|jpg|png)
+    exists, otherwise the dashed placeholder. Lets a photo be dropped into the
+    folder and appear on the next build, with no risk of a broken image on the
+    live site in the meantime."""
+    name, alt = m.group(1), m.group(2)
+    for ext in ("webp", "jpg", "png"):
+        if (PUBLIC / "assets" / "img" / f"{name}.{ext}").exists():
+            return (f'<img src="/assets/img/{name}.{ext}" alt="{alt}" '
+                    f'width="1200" height="900" loading="lazy">')
+    return ('<div class="photo-placeholder"><span><strong>Photo: ' + name +
+            '</strong>Save <code>' + name + '.webp</code> into assets/img and rebuild</span></div>')
+
+
 def parse(src: str):
     m = re.match(r"\s*<!--meta\s*(.*?)-->\s*", src, re.S)
     if not m:
@@ -118,7 +135,8 @@ def check_unique_images():
     for f in CONTENT.glob("*.html"):
         if f.stem.endswith(".head"):
             continue
-        for name in pat.findall(f.read_text()):
+        txt = f.read_text()
+        for name in pat.findall(txt) + [m.group(1) for m in PHOTO_RE.finditer(txt)]:
             if name.startswith(skip_prefixes):
                 continue
             counts[name] += 1
@@ -138,6 +156,7 @@ def build():
         meta, body = parse(f.read_text())
         html = TEMPLATE
         body = re.sub(r"\{\{icon:([a-z]+)\}\}", lambda m: icon(m.group(1)), body)
+        body = PHOTO_RE.sub(photo, body)
         repl = {
             "title": meta["title"],
             "description": meta.get("description", ""),
