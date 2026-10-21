@@ -50,12 +50,17 @@ number everywhere — display text, `tel:` links and structured data.
    `https://<username>.github.io/Regency-Website/`.
 2. **Settings → Pages → Custom domain:** `www.hixsonregencyhouse.com`, then
    tick **Enforce HTTPS** once the certificate issues.
-3. **DNS** at the registrar:
-   - `www` **CNAME** → `<username>.github.io`
-   - apex `@` **A** records → `185.199.108.153`, `185.199.109.153`,
-     `185.199.110.153`, `185.199.111.153`
-   - **Do not touch MX records** — `info@hixsonregencyhouse.com` runs on this
-     domain, so breaking them takes the facility's email down with it.
+3. **DNS at GoDaddy** (My Products → hixsonregencyhouse.com → DNS). The domain
+   and DNS stay at GoDaddy; only the files move. Identical to the
+   kirbygateliving.com setup.
+   - Edit the `www` **CNAME** → value `<username>.github.io`
+   - Replace the apex `@` **A** record(s) with four A records:
+     `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - **Do not touch MX or email records.** `info@hixsonregencyhouse.com` runs
+     on this domain — breaking MX takes the facility's email down with the site.
+     Screenshot the DNS page before changing anything.
+   - Propagation takes minutes to a few hours. The apex redirects to `www`
+     automatically.
 4. **Activate the lead form.** Submit it once; FormSubmit emails a one-time
    activation link to `info@hixsonregencyhouse.com` that somebody must click.
    **Until then no leads are delivered** — the most common way a new site
@@ -70,3 +75,25 @@ number everywhere — display text, `tel:` links and structured data.
 rendered on each page. Google requires FAQ schema to match visible content, so
 editing a question in `content/` updates the schema automatically. Do not add
 FAQ schema by hand.
+
+
+## Handing this over
+
+The domain is the control point, not this repo. DNS lives at GoDaddy, so
+whoever holds that GoDaddy account decides where the site points — GitHub,
+Netlify, or anywhere else.
+
+Three ways to hand over, easiest first:
+
+1. **Add the new owner as an admin collaborator.** Settings → Collaborators →
+   Add people → Admin. Full control, no downtime, nothing moves. Usually the
+   right answer.
+2. **Transfer the repository.** Settings → Danger Zone → Transfer ownership.
+   History comes along. Afterwards, Pages and the custom domain have to be
+   re-enabled on the receiving account, so there is a short window where the
+   site is down — do it at a quiet hour.
+3. **Leave GitHub entirely.** The site is plain static files with no build
+   dependency beyond Python 3. Run `python3 build.py`, take the `public/`
+   folder, upload it anywhere, and change the two DNS records at GoDaddy.
+
+There is no lock-in at any layer. That is deliberate.
