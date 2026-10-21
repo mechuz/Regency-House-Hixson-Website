@@ -50,17 +50,7 @@ number everywhere — display text, `tel:` links and structured data.
    `https://mechuz.github.io/Regency-House-Hixson-Website/`.
 2. **Settings → Pages → Custom domain:** `www.hixsonregencyhouse.com`, then
    tick **Enforce HTTPS** once the certificate issues.
-3. **DNS at GoDaddy** (My Products → hixsonregencyhouse.com → DNS). The domain
-   and DNS stay at GoDaddy; only the files move. Identical to the
-   kirbygateliving.com setup.
-   - Edit the `www` **CNAME** → value `<username>.github.io`
-   - Replace the apex `@` **A** record(s) with four A records:
-     `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - **Do not touch MX or email records.** `info@hixsonregencyhouse.com` runs
-     on this domain — breaking MX takes the facility's email down with the site.
-     Screenshot the DNS page before changing anything.
-   - Propagation takes minutes to a few hours. The apex redirects to `www`
-     automatically.
+3. **DNS at GoDaddy** — full click-by-click below under *GoDaddy, step by step*.
 4. **Activate the lead form.** Submit it once; FormSubmit emails a one-time
    activation link to `info@hixsonregencyhouse.com` that somebody must click.
    **Until then no leads are delivered** — the most common way a new site
@@ -97,3 +87,63 @@ Three ways to hand over, easiest first:
    folder, upload it anywhere, and change the two DNS records at GoDaddy.
 
 There is no lock-in at any layer. That is deliberate.
+
+
+## GoDaddy, step by step
+
+The domain and DNS stay at GoDaddy; only the files move. Same arrangement as
+kirbygateliving.com.
+
+### Before touching anything
+1. Sign in at godaddy.com.
+2. **Screenshot the whole DNS page** once you reach it. That is how you undo a
+   mistake.
+3. **Never edit `MX`, `TXT` or `NS` rows.** `info@hixsonregencyhouse.com` runs
+   on this domain — breaking those takes the facility's email down with the site.
+
+### Reach the DNS page
+4. Top right → your name → **My Products**.
+5. Under **Domains**, find `hixsonregencyhouse.com`.
+6. Three dots → **Manage DNS** (or click the domain, then the **DNS** tab).
+
+### The `www` record
+7. Find the row where **Type = CNAME** and **Name = www**.
+8. Edit it. Set **Value** to `mechuz.github.io`.
+9. TTL can stay as-is, or 600 seconds for faster propagation. Save.
+
+If no `www` CNAME exists: **Add New Record** → CNAME / `www` / `mechuz.github.io`.
+
+### The apex `A` records
+10. Find **Type = A**, **Name = @**. Edit it to `185.199.108.153`. Save.
+11. **Add New Record** three more times, each Type `A`, Name `@`:
+
+| Type | Name | Value |
+|---|---|---|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+
+All four share the name `@`. That is correct — these are GitHub's published
+Pages addresses. Delete any other `@` A record pointing elsewhere.
+
+### Forwarding — the step people miss
+12. On the domain's main page, check **Forwarding**. If a forward is active
+    (the old `/lander` may be served this way), **turn it off.** Forwarding
+    overrides DNS and the site will not appear while it is on.
+
+### Back on GitHub
+13. **Settings → Pages.** The Custom domain field should already read
+    `www.hixsonregencyhouse.com` — `build.py` writes a `CNAME` file into
+    `public/`, and Pages reads it.
+14. Wait for the certificate, then tick **Enforce HTTPS**. Minutes to an hour.
+    Greyed out means DNS has not propagated yet.
+
+### Verify
+15. After ~15 minutes open `https://www.hixsonregencyhouse.com`.
+16. Check `https://hixsonregencyhouse.com` too — it should redirect to www.
+17. **Email yourself at `info@hixsonregencyhouse.com` and confirm it arrives.**
+    Do not skip this.
+
+Propagation is usually minutes, occasionally hours. If the old page still
+shows, try a private window before assuming something is wrong.
