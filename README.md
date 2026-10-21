@@ -47,7 +47,7 @@ number everywhere — display text, `tel:` links and structured data.
 ## Go-live checklist
 
 1. **Settings → Pages → Source: GitHub Actions.** The workflow publishes to
-   `https://<username>.github.io/Regency-Website/`.
+   `https://mechuz.github.io/Regency-House-Hixson-Website/`.
 2. **Settings → Pages → Custom domain:** `www.hixsonregencyhouse.com`, then
    tick **Enforce HTTPS** once the certificate issues.
 3. **DNS at GoDaddy** (My Products → hixsonregencyhouse.com → DNS). The domain
