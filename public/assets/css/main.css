@@ -401,3 +401,11 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 .faq-a { padding: 0 2.75rem 1.25rem 0; }
 .faq-a p { margin: 0 0 0.75rem; }
 .faq-a p:last-child { margin-bottom: 0; }
+
+/* Landing hero carrying the exterior photograph: taller than interior heroes,
+   anchored toward the lower third so the porch and columns stay in frame. */
+.hero-landing { min-height: 580px; background-position: center 62%; }
+.hero-landing .container { padding-top: 5rem; padding-bottom: 5rem; }
+.hero-landing h1 { text-shadow: 0 2px 18px rgba(10,30,40,.45); }
+.hero-landing .tagline { text-shadow: 0 1px 10px rgba(10,30,40,.5); }
+@media (max-width: 760px) { .hero-landing { min-height: 460px; background-position: center 55%; } }
