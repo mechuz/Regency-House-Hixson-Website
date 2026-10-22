@@ -6,21 +6,21 @@
      button tones below are deepened from the same hues so every text colour
      clears WCAG AA (4.5:1) for an older readership.
      Variable names are inherited from the shared Kirby template. */
-  --brand-teal: #45b8c9;  /* aqua — borders, icons, decorative */
-  --brand-rose: #8fd9b5;  /* soft green — decorative only, never text */
+  --brand-teal: #1fb3cc;  /* aqua — borders, icons, decorative */
+  --brand-rose: #6fd3a6;  /* soft green — decorative only, never text */
   --rose-text:  #1f6e55;  /* green, 5.3:1 — eyebrows, checks, accents */
 
-  --navy: #0f6b7a;        /* deep turquoise — headings (5.7:1) */
-  --blue: #1c7f93;        /* links, secondary buttons (4.6:1) */
+  --navy: #0b6f82;        /* deep turquoise — headings (5.7:1) */
+  --blue: #117d99;        /* links, secondary buttons (4.6:1) */
   --blue-deep: #176a7b;   /* link hover */
-  --green: #2a7f63;       /* primary buttons, white text (4.7:1) */
+  --green: #1e805c;       /* primary buttons, white text (4.7:1) */
   --green-light: #a9e2ea;
-  --ice: #d3eff2;         /* seaglass section block */
-  --ice-deep: #45b8c9;
+  --ice: #aee3ea;         /* seaglass section block */
+  --ice-deep: #1fb3cc;
   --paper: #ffffff;       /* section-alt is plain white: two-colour scheme */
   --ink: #273d47;
   --white: #ffffff;
-  --footer-bg: #0f6b7a;   /* turquoise footer ground */
+  --footer-bg: #0b6f82;   /* turquoise footer ground */
   --footer-text: #ffffff;
   --footer-muted: #d4ecf0;
   --line-soft: #c3e2e8;   /* input borders, hairlines */
@@ -69,7 +69,7 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   font-family: var(--font-body);
 }
 .btn-primary { background: var(--green); color: #fff; }
-.btn-primary:hover { background: #216650; color: #fff; }
+.btn-primary:hover { background: #19704f; color: #fff; }
 .btn-secondary { background: var(--blue); color: #fff; }
 .btn-secondary:hover { background: var(--blue-deep); color: #fff; }
 .btn-light { background: #fff; color: var(--navy); }
@@ -128,8 +128,8 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   /* Default: a light blue wash with dark type — no photograph required, so
      the page reads as finished before any photography exists. */
   background-color: var(--ice);
-  background-image: linear-gradient(135deg, #d3eff2 0%, #eaf7f9 50%, #d7f3e6 100%);
-  border-bottom: 6px solid #5fc49a;
+  background-image: linear-gradient(135deg, #aee3ea 0%, #dff3f6 50%, #b6ecd2 100%);
+  border-bottom: 6px solid #2fbf86;
 }
 /* Scrim only applies to a hero that carries a photograph. */
 .hero-photo::before {
@@ -140,7 +140,7 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 .hero h1 { color: #0a4752; max-width: 760px; }
 .hero-photo h1 { color: #fff; }
 .hero .tagline { color: #13303c; font-size: 1.28rem; margin: 1rem 0 1.75rem; max-width: 620px; font-weight: 400; }
-.hero-photo .tagline { color: #eaf7f9; }
+.hero-photo .tagline { color: #dff3f6; }
 .hero-page { min-height: 320px; }
 
 /* Sections */
@@ -191,11 +191,11 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 .icon-grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem 2rem; margin-top: 2.25rem; }
 .icon-grid li { display: flex; flex-direction: column; gap: 0.3rem; align-items: flex-start; text-align: left; }
 .icon-grid .icon {
-  width: 58px; height: 58px; border-radius: 16px; background: #5fc49a; color: #fff;
+  width: 58px; height: 58px; border-radius: 16px; background: #2fbf86; color: #fff;
   display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;
-  box-shadow: 0 6px 16px rgba(95,196,154,0.35);
+  box-shadow: 0 6px 16px rgba(47,191,134,0.4);
 }
-.icon-grid li:nth-child(2n) .icon { background: #45b8c9; color: #fff; box-shadow: 0 6px 16px rgba(69,184,201,0.35); }
+.icon-grid li:nth-child(2n) .icon { background: #1fb3cc; color: #fff; box-shadow: 0 6px 16px rgba(31,179,204,0.4); }
 .icon-grid strong { color: var(--navy); font-size: 1.05rem; }
 .icon-grid li > span:last-child { color: var(--text-muted); font-size: 0.97rem; line-height: 1.5; }
 
@@ -224,11 +224,11 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 
 /* CTA band */
 .cta-band {
-  background: linear-gradient(120deg, #0f6b7a 0%, #1c7f93 40%, #2a7f63 100%); color: #fff;
+  background: linear-gradient(120deg, #0b6f82 0%, #117d99 40%, #1e805c 100%); color: #fff;
   text-align: center; padding: 4rem 1.25rem;
 }
 .cta-band h2 { color: #fff; }
-.cta-band p { color: #eaf7f9; margin: 0.75rem 0 1.75rem; }
+.cta-band p { color: #dff3f6; margin: 0.75rem 0 1.75rem; }
 .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 /* Forms */
@@ -249,7 +249,7 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 }
 .form-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; }
 .contact-info-card { background: var(--ice); border-radius: var(--radius); padding: 2rem; color: #13303c; }
-.contact-info-card h3, .contact-info-card a { color: #0d5e6b; }
+.contact-info-card h3, .contact-info-card a { color: #0a5a6b; }
 .contact-info-card h3 { color: #0a4752; }
 .contact-info-card a { color: #0a4752; }
 .contact-info-card h3 { margin-top: 1.25rem; }
@@ -342,8 +342,8 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   border-radius: var(--radius); color: #5e7382; font-size: 0.95rem;
 }
 /* green hairline accent */
-.card { border-top: 5px solid #5fc49a; }
-.card-grid .card:nth-child(2n) { border-top-color: #45b8c9; }
+.card { border-top: 5px solid #2fbf86; }
+.card-grid .card:nth-child(2n) { border-top-color: #1fb3cc; }
 .photo-placeholder strong { display: block; color: var(--navy); margin-bottom: 0.3rem; }
 .photo-placeholder { color: #5a7585; }
 
@@ -423,8 +423,8 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 
 /* Photo gallery */
 .gallery-grid { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); grid-auto-flow: dense; gap: 1.5rem; }
-.gallery-item { margin: 0; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border-top: 5px solid #5fc49a; }
-.gallery-item:nth-child(2n) { border-top-color: #45b8c9; }
+.gallery-item { margin: 0; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border-top: 5px solid #2fbf86; }
+.gallery-item:nth-child(2n) { border-top-color: #1fb3cc; }
 .gallery-item a { display: block; }
 .gallery-item img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; transition: transform .35s ease; }
 .gallery-item a:hover img, .gallery-item a:focus-visible img { transform: scale(1.03); }
@@ -459,15 +459,15 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 
 /* Blue section blocks: darker type and navy buttons so everything
    stays readable on the colour. section-alt is plain white. */
-.section-ice { --ink: #13303c; --text-muted: #1c3741; --navy: #0d5e6b; --blue: #0d5e6b; --blue-deep: #073540; --rose-text: #14523f; color: #13303c; }
-.section-ice a:not(.btn) { color: #0d5e6b; text-decoration-color: currentColor; }
+.section-ice { --ink: #13303c; --text-muted: #1c3741; --navy: #0a5a6b; --blue: #0a5a6b; --blue-deep: #073540; --rose-text: #14523f; color: #13303c; }
+.section-ice a:not(.btn) { color: #0a5a6b; text-decoration-color: currentColor; }
 .section-ice .btn-secondary { background: #0a4752; }
 .section-ice .btn-secondary:hover { background: #176a7b; }
-.section-ice .card, .section-ice .faq { --navy: #0f6b7a; --ink: #273d47; --text-muted: #46606b; --blue: #1c7f93; --rose-text: #1f6e55; color: #273d47; }
+.section-ice .card, .section-ice .faq { --navy: #0b6f82; --ink: #273d47; --text-muted: #46606b; --blue: #117d99; --rose-text: #1f6e55; color: #273d47; }
 .section-ice .faq { background: #fff; border-radius: var(--radius); padding: 0.5rem 1.5rem; box-shadow: var(--shadow); }
 .section-ice .photo-placeholder { background: rgba(255,255,255,0.55); border-color: #fff; }
 .section-ice .map-embed { box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
 .section-ice .check-list li::before { color: #0a4752; }
 
 /* Two-tone stripe across the top of the header */
-.site-header { border-top: 5px solid; border-image: linear-gradient(90deg, #45b8c9 0%, #45b8c9 50%, #5fc49a 50%, #5fc49a 100%) 1; }
+.site-header { border-top: 5px solid; border-image: linear-gradient(90deg, #1fb3cc 0%, #1fb3cc 50%, #2fbf86 50%, #2fbf86 100%) 1; }
