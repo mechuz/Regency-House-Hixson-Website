@@ -16,9 +16,9 @@
   --blue-deep: #065f78;   /* link hover */
   --green: #d82a68;       /* primary buttons, white text (4.7:1) */
   --green-light: #9fe3f0;
-  --ice: #22c7e3;         /* vivid turquoise section block */
+  --ice: #a9e8f2;         /* medium turquoise section block */
   --ice-deep: #0fb3d0;
-  --paper: #ff7fb0;       /* vivid pink section block */
+  --paper: #ffc2d6;       /* medium pink section block */
   --ink: #273d47;
   --white: #ffffff;
   --footer-bg: #0b6f8e;   /* turquoise footer ground */
@@ -129,7 +129,7 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   /* Default: a light blue wash with dark type — no photograph required, so
      the page reads as finished before any photography exists. */
   background-color: var(--ice);
-  background-image: linear-gradient(135deg, #22c7e3 0%, #8fe0ef 48%, #ff7fb0 100%);
+  background-image: linear-gradient(135deg, #a9e8f2 0%, #e4f6fa 50%, #ffc2d6 100%);
   border-bottom: 6px solid #ff3d85;
 }
 /* Scrim only applies to a hero that carries a photograph. */
@@ -251,6 +251,7 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 }
 .form-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem; }
 .contact-info-card { background: var(--ice); border-radius: var(--radius); padding: 2rem; color: #13303c; }
+.contact-info-card h3, .contact-info-card a { color: #085a73; }
 .contact-info-card h3 { color: #083a4b; }
 .contact-info-card a { color: #083a4b; }
 .contact-info-card h3 { margin-top: 1.25rem; }
@@ -473,6 +474,12 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
 .section-ice .btn-secondary:hover, .section-alt .btn-secondary:hover { background: #06212b; }
 .section-ice .card, .section-alt .card, .section-ice .faq, .section-alt .faq { --navy: #0b6f8e; --ink: #273d47; --text-muted: #46606b; --blue: #077c9c; --rose-text: #cf2d68; color: #273d47; }
 .section-ice .faq, .section-alt .faq { background: #fff; border-radius: var(--radius); padding: 0.5rem 1.5rem; box-shadow: var(--shadow); }
+.section-ice, .section-alt { --blue: #085a73; --navy: #085a73; }
+.section-ice a:not(.btn), .section-alt a:not(.btn) { color: #085a73; }
+.section-alt .btn-primary { background: var(--green); }
+.section-alt .btn-primary:hover { background: #b81f56; }
+.section-alt .btn-secondary, .section-ice .btn-secondary { background: #083a4b; }
+.section-ice .btn-secondary:hover, .section-alt .btn-secondary:hover { background: #065f78; }
 .section-ice .photo-placeholder, .section-alt .photo-placeholder { background: rgba(255,255,255,0.55); border-color: #fff; }
 .section-ice .map-embed { box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
 .section-ice .check-list li::before, .section-alt .check-list li::before { color: #083a4b; }
