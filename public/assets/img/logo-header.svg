@@ -5,7 +5,7 @@
        Full lockup with "SENIOR LIVING COMMUNITY" lives in logo.svg. -->
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
     <path d="M58 100 C 18 71 9 48 21 33 C 32 19 51 23 58 38 C 65 23 84 19 95 33 C 107 48 98 71 58 100 Z"
-          stroke="#6cc49a" stroke-width="7"/>
+          stroke="#5fc49a" stroke-width="7"/>
     <path d="M20 68 L55 40 L90 68" stroke="#5aaabe" stroke-width="7"/>
     <path d="M29 63 L29 95 L81 95 L81 63" stroke="#5aaabe" stroke-width="7"/>
     <rect x="46" y="70" width="19" height="19" stroke="#5aaabe" stroke-width="5"/>

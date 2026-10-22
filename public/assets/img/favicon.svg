@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Regency House">
   <rect width="64" height="64" rx="13" fill="#5aaabe"/>
   <path d="M32 51 C 13 37 9 26 15 19 C 20 13 28 15 32 22 C 36 15 44 13 49 19 C 55 26 51 37 32 51 Z"
-        fill="#6cc49a"/>
+        fill="#5fc49a"/>
   <path d="M15 35 L32 21 L49 35 L44 35 L44 47 L20 47 L20 35 Z" fill="#ffffff"/>
   <rect x="28" y="37" width="8" height="10" fill="#5aaabe"/>
 </svg>

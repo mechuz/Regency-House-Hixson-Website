@@ -2,12 +2,12 @@
      aria-label="Regency House — Senior Living Community">
   <title>Regency House — Senior Living Community</title>
   <!-- INTERIM RECONSTRUCTION of the Regency mark, drawn to match the brand
-       colours (teal #5aaabe, rose #6cc49a) and the REGENCY [CITY] lockup.
+       colours (teal #5aaabe, rose #5fc49a) and the REGENCY [CITY] lockup.
        Replace with the official Hixson artwork when it is available. -->
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
     <!-- heart outline, rose -->
     <path d="M58 100 C 18 71 9 48 21 33 C 32 19 51 23 58 38 C 65 23 84 19 95 33 C 107 48 98 71 58 100 Z"
-          stroke="#6cc49a" stroke-width="7"/>
+          stroke="#5fc49a" stroke-width="7"/>
     <!-- house, teal -->
     <path d="M20 68 L55 40 L90 68" stroke="#9fd4e0" stroke-width="7"/>
     <path d="M29 63 L29 95 L81 95 L81 63" stroke="#9fd4e0" stroke-width="7"/>
@@ -17,5 +17,5 @@
   <text x="140" y="62" font-family="Georgia, 'Times New Roman', serif" font-size="40"
         fill="#ffffff" letter-spacing="3.5">REGENCY HOUSE</text>
   <text x="144" y="92" font-family="Georgia, 'Times New Roman', serif" font-size="19"
-        fill="#6cc49a" letter-spacing="4.4">SENIOR LIVING COMMUNITY</text>
+        fill="#5fc49a" letter-spacing="4.4">SENIOR LIVING COMMUNITY</text>
 </svg>
