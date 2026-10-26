@@ -571,3 +571,15 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 
 .card h3, .icon-grid strong, .contact-info-card h3, .site-footer h3 { font-family: var(--font-body); }
 .icon-grid strong { font-size: 1.12rem; }
+
+/* Five care pillars under the welcome text */
+.pillars { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
+.pillars li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; padding: 0.5rem 1rem; border-left: 1px solid #ddd5c3; }
+.pillars li:first-child { border-left: 0; }
+.pillars strong { font-family: var(--font-ui); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); line-height: 1.35; }
+.pillars li > span:last-child { color: var(--text-muted); font-size: 0.95rem; line-height: 1.45; }
+.pillars-note { margin: 2.5rem auto 0; border-top: 2px solid var(--gold); padding-top: 1.5rem; max-width: 760px; }
+.pillars-note p + p { margin-top: 0.6rem; }
+.pillars-cta { color: var(--green); font-weight: 600; }
+@media (max-width: 960px) { .pillars { grid-template-columns: repeat(3, 1fr); row-gap: 1.5rem; } .pillars li:nth-child(4) { border-left: 0; } }
+@media (max-width: 600px) { .pillars { grid-template-columns: repeat(2, 1fr); } .pillars li:nth-child(4) { border-left: 1px solid #ddd5c3; } .pillars li:nth-child(odd) { border-left: 0; } }
