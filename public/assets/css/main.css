@@ -478,9 +478,9 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
    panels. Appended last so it overrides the token-based rules above.
    ===================================================================== */
 :root {
-  --font-head: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-body: "Lora", Georgia, "Times New Roman", serif;
-  --font-ui: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-head: "Libre Baskerville", "Baskerville", "Times New Roman", serif;
+  --font-body: "Source Sans 3", "Source Sans Pro", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-ui: "Source Sans 3", "Source Sans Pro", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --navy: #1b3a5c; --blue: #1b3a5c; --blue-deep: #1e5c45;
   --green: #1e5c45; --gold: #c9a55a; --gold-text: #8a6a1f;
   --rose-text: #8a6a1f;
@@ -492,11 +492,11 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   --hero-scrim: 15, 46, 37;
   --shadow: 0 6px 22px rgba(27, 58, 92, 0.10);
 }
-body { font-family: var(--font-body); color: var(--ink); font-size: 1.0625rem; line-height: 1.7; }
-h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); font-weight: 700; letter-spacing: -0.015em; line-height: 1.08; }
-h1 { font-size: clamp(2.6rem, 6vw, 4.4rem); }
-h2 { font-size: clamp(1.9rem, 3.8vw, 2.7rem); }
-h3 { font-weight: 600; }
+body { font-family: var(--font-body); color: var(--ink); font-size: 1.125rem; line-height: 1.65; }
+h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); font-weight: 700; letter-spacing: 0; line-height: 1.15; }
+h1 { font-size: clamp(2.3rem, 5.2vw, 3.8rem); }
+h2 { font-size: clamp(1.7rem, 3.3vw, 2.4rem); }
+h3 { font-weight: 700; font-size: 1.2rem; }
 .section h2::after { content: ""; display: block; width: 56px; height: 2px; background: var(--gold); margin: 0.9rem 0 0; }
 .section .center h2::after { margin-left: auto; margin-right: auto; }
 .cta-band h2::after { content: none; }
@@ -504,7 +504,7 @@ h3 { font-weight: 600; }
 
 .main-nav a, .main-nav .has-sub > button, .phone-link { font-family: var(--font-ui); font-weight: 600; }
 .main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--green); border-bottom-color: var(--gold); }
-.btn { font-family: var(--font-ui); font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.86rem; padding: 0.9rem 1.7rem; }
+.btn { font-family: var(--font-ui); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; padding: 0.9rem 1.7rem; }
 .btn-primary { background: var(--green); color: #fff; border-color: var(--gold); }
 .btn-primary:hover { background: #174a37; color: #fff; border-color: var(--gold); }
 .btn-secondary { background: var(--navy); color: #fff; border-color: var(--navy); }
@@ -528,7 +528,7 @@ h3 { font-weight: 600; }
 .hero:not(.hero-photo) .hero-kicker { color: var(--gold-text); }
 .hero .tagline { color: var(--ink); font-size: 1.3rem; line-height: 1.6; max-width: 560px; }
 .hero-photo .tagline { color: #f3efe6; }
-.hero-landing h1 { font-size: clamp(3rem, 7.5vw, 5.6rem); text-shadow: 0 3px 24px rgba(8,30,22,.45); }
+.hero-landing h1 { font-size: clamp(2.7rem, 6.5vw, 4.8rem); text-shadow: 0 3px 24px rgba(8,30,22,.45); }
 .hero-landing .tagline { text-shadow: 0 1px 10px rgba(8,30,22,.5); }
 
 .feature-strip { background: var(--paper); border-bottom: 1px solid #e6dfd0; }
@@ -544,7 +544,7 @@ h3 { font-weight: 600; }
 .card, .card-grid .card:nth-child(2n) { border-top: 3px solid var(--gold); }
 .gallery-item, .gallery-item:nth-child(2n) { border-top: 3px solid var(--gold); }
 .faq-item, .faq-item:nth-child(even) { border-bottom: 1px solid #d9d2c3; }
-.faq-item > summary { font-family: var(--font-head); font-weight: 600; }
+.faq-item > summary { font-family: var(--font-body); font-weight: 700; font-size: 1.1rem; }
 .faq-item > summary::after { color: var(--gold-text); }
 .check-list li::before { color: var(--green); }
 
@@ -568,3 +568,6 @@ h3 { font-weight: 600; }
 .lightbox { background: rgba(15, 46, 37, 0.94); }
 .lightbox button:hover, .lightbox button:focus-visible { background: var(--gold); color: var(--navy); }
 .form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline: 2px solid var(--gold); border-color: var(--green); }
+
+.card h3, .icon-grid strong, .contact-info-card h3, .site-footer h3 { font-family: var(--font-body); }
+.icon-grid strong { font-size: 1.12rem; }
