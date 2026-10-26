@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 530 118" role="img"
-     aria-label="Regency House — Senior Living Community">
-  <title>Regency House — Senior Living Community</title>
+     aria-label="Regency House Assisted Living">
+  <title>Regency House Assisted Living</title>
   <!-- INTERIM RECONSTRUCTION of the Regency mark, drawn to match the brand
        colours (teal #5aaabe, rose #f096aa) and the REGENCY [CITY] lockup.
        Replace with the official Hixson artwork when it is available. -->
@@ -17,5 +17,5 @@
   <text x="140" y="62" font-family="Georgia, 'Times New Roman', serif" font-size="40"
         fill="#ffffff" letter-spacing="3.5">REGENCY HOUSE</text>
   <text x="144" y="92" font-family="Georgia, 'Times New Roman', serif" font-size="19"
-        fill="#f096aa" letter-spacing="4.4">SENIOR LIVING COMMUNITY</text>
+        fill="#2fbf86" letter-spacing="5">ASSISTED LIVING</text>
 </svg>

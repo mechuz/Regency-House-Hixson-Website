@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 545 112" role="img"
-     aria-label="Regency House Senior Living Community">
-  <title>Regency House</title>
-  <!-- Header lockup — subtitle omitted for legibility at small sizes.
-       Full lockup with "SENIOR LIVING COMMUNITY" lives in logo.svg. -->
+     aria-label="Regency House Assisted Living">
+  <title>Regency House Assisted Living</title>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
     <path d="M58 100 C 18 71 9 48 21 33 C 32 19 51 23 58 38 C 65 23 84 19 95 33 C 107 48 98 71 58 100 Z"
           stroke="#f096aa" stroke-width="7"/>
@@ -11,6 +9,8 @@
     <rect x="46" y="70" width="19" height="19" stroke="#5aaabe" stroke-width="5"/>
     <path d="M55.5 70 L55.5 89 M46 79.5 L65 79.5" stroke="#5aaabe" stroke-width="3.5"/>
   </g>
-  <text x="128" y="79" font-family="Georgia, 'Times New Roman', serif" font-size="44"
+  <text x="128" y="64" font-family="Georgia, 'Times New Roman', serif" font-size="42"
         fill="#5aaabe" letter-spacing="3">REGENCY HOUSE</text>
+  <text x="131" y="96" font-family="Georgia, 'Times New Roman', serif" font-size="20"
+        fill="#1e9a66" letter-spacing="5.2">ASSISTED LIVING</text>
 </svg>
