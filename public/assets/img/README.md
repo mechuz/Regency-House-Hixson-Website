@@ -44,9 +44,14 @@ photo release for each one on file at the facility, and remove the photo from
 resident or family withdraws permission. The footer states that residents
 appear with their permission.
 
-Still wanted when convenient: a courtyard or outdoor seating photo, and an
-activity-room shot with people in it (with written consent for any identifiable
-face).
+Four more photographs from the administrator (26 Oct 2026): `courtyard.webp`,
+`courtyard-roses.webp`, `entrance-hall.webp`, `veterans-staircase.webp`. They
+sit in both `img/` (page slots) and `gallery/`. All four arrived at roughly
+640px wide, so they are used in half-width slots and the gallery, not as page
+heroes. Ask for the originals if a larger version is ever needed.
+
+Still wanted when convenient: an activity-room shot with people in it (with
+written consent for any identifiable face).
 
 ### Shooting notes
 - Morning or late afternoon. Midday sun blows out exteriors.
