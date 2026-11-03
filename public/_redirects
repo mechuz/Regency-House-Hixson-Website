@@ -6,3 +6,15 @@
 # at it — a live ad, a bookmark, a directory listing — lands on the home page
 # instead of a 404.
 /lander   /
+
+# Paths from the old vendor site (regencyhouse-hixson.com). Once that domain
+# forwards here with path forwarding on, these keep old links alive.
+/services   /rates-floor-plans/
+/services/  /rates-floor-plans/
+/pay-options   /rates-floor-plans/
+/photos   /gallery/
+/photo-gallery   /gallery/
+/about   /about-us/
+/contact   /contact-us/
+/tour   /contact-us/
+/reviews-testimonials   /reviews/

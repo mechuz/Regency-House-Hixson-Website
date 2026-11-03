@@ -50,6 +50,13 @@ sit in both `img/` (page slots) and `gallery/`. All four arrived at roughly
 640px wide, so they are used in half-width slots and the gallery, not as page
 heroes. Ask for the originals if a larger version is ever needed.
 
+**Floor plans.** The Rates page has two text-only floor-plan cards (Studio,
+One Bedroom). When drawings exist, save them as `floorplan-studio.webp` and
+`floorplan-1bed.webp` and add `{{photo:floorplan-studio|...}}` /
+`{{photo:floorplan-1bed|...}}` as the first line inside each `.floorplan`
+card in `content/rates-floor-plans.html`. A clean phone photo of a printed
+plan is enough; it will be cropped and squared up.
+
 Still wanted when convenient: an activity-room shot with people in it (with
 written consent for any identifiable face).
 
