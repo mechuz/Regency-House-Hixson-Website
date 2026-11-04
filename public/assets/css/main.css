@@ -478,9 +478,9 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
    panels. Appended last so it overrides the token-based rules above.
    ===================================================================== */
 :root {
-  --font-head: "Nunito", "Nunito Sans", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-body: "Nunito Sans", "Nunito", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-ui: "Nunito Sans", "Nunito", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-head: "Montserrat", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: "Open Sans", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-ui: "Montserrat", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --navy: #1b3a5c; --blue: #1b3a5c; --blue-deep: #1e5c45;
   --green: #1e5c45; --gold: #c9a55a; --gold-text: #8a6a1f;
   --rose-text: #8a6a1f;
@@ -492,19 +492,19 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   --hero-scrim: 15, 46, 37;
   --shadow: 0 6px 22px rgba(27, 58, 92, 0.10);
 }
-body { font-family: var(--font-body); color: var(--ink); font-size: 1.125rem; line-height: 1.65; }
-h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); font-weight: 800; letter-spacing: -0.01em; line-height: 1.15; }
-h1 { font-size: clamp(2.2rem, 4.8vw, 3.4rem); }
-h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
-h3 { font-weight: 700; font-size: 1.2rem; }
+body { font-family: var(--font-body); color: var(--ink); font-size: 1.0625rem; line-height: 1.7; }
+h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; }
+h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); }
+h2 { font-size: clamp(1.5rem, 2.8vw, 2.05rem); }
+h3 { font-weight: 600; font-size: 1.15rem; }
 .section h2::after { content: none; }
 .section .center h2::after { margin-left: auto; margin-right: auto; }
 .cta-band h2::after { content: none; }
-.eyebrow { color: var(--green); font-family: var(--font-ui); font-weight: 700; letter-spacing: 0; text-transform: none; font-size: 1rem; margin-bottom: 0.35rem; }
+.eyebrow { color: var(--green); font-family: var(--font-ui); font-weight: 600; letter-spacing: 0; text-transform: none; font-size: 0.95rem; margin-bottom: 0.35rem; }
 
 .main-nav a, .main-nav .has-sub > button, .phone-link { font-family: var(--font-ui); font-weight: 600; }
 .main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--green); border-bottom-color: var(--gold); }
-.btn { font-family: var(--font-ui); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 1rem; padding: 0.85rem 1.6rem; }
+.btn { font-family: var(--font-ui); font-weight: 600; text-transform: none; letter-spacing: 0; font-size: 0.95rem; padding: 0.85rem 1.6rem; }
 .btn-primary { background: var(--green); color: #fff; border-color: var(--gold); }
 .btn-primary:hover { background: #174a37; color: #fff; border-color: var(--gold); }
 .btn-secondary { background: var(--navy); color: #fff; border-color: var(--navy); }
@@ -523,12 +523,12 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 .hero { background-color: var(--paper); background-image: linear-gradient(135deg, #ffffff 0%, var(--paper) 55%, var(--ice) 100%); border-bottom: 3px solid var(--gold); }
 .hero h1 { color: var(--navy); }
 .hero-photo h1 { color: #fff; }
-.hero-kicker { display: block; font-family: var(--font-ui); font-weight: 700; font-size: 1.15rem; letter-spacing: 0; text-transform: none; color: var(--gold); margin-bottom: 0.5rem; }
+.hero-kicker { display: block; font-family: var(--font-ui); font-weight: 600; font-size: 1.05rem; letter-spacing: 0; text-transform: none; color: var(--gold); margin-bottom: 0.5rem; }
 .hero-kicker::after { content: none; }
 .hero:not(.hero-photo) .hero-kicker { color: var(--gold-text); }
 .hero .tagline { color: var(--ink); font-size: 1.3rem; line-height: 1.6; max-width: 560px; }
 .hero-photo .tagline { color: #f3efe6; }
-.hero-landing h1 { font-size: clamp(2.4rem, 5.4vw, 4rem); text-shadow: 0 3px 24px rgba(8,30,22,.45); }
+.hero-landing h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); text-shadow: 0 3px 24px rgba(8,30,22,.45); }
 .hero-landing .tagline { text-shadow: 0 1px 10px rgba(8,30,22,.5); }
 
 .feature-strip { background: var(--paper); border-bottom: 1px solid #e6dfd0; }
@@ -614,3 +614,7 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 
 /* Plain-case type: footer headings and feature labels */
 .site-footer h3 { text-transform: none; letter-spacing: 0; font-size: 1.05rem; }
+
+.main-nav a, .main-nav .has-sub > button, .phone-link { font-family: var(--font-ui); font-weight: 600; font-size: 0.95rem; }
+.feature-strip li, .pillars strong, .icon-grid strong, .card h3, .contact-info-card h3, .site-footer h3, .testimonial cite { font-family: var(--font-ui); }
+.icon-grid strong { font-size: 1.02rem; font-weight: 600; }
