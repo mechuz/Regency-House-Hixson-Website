@@ -618,3 +618,12 @@ h3 { font-weight: 600; font-size: 1.15rem; }
 .main-nav a, .main-nav .has-sub > button, .phone-link { font-family: var(--font-ui); font-weight: 600; font-size: 0.95rem; }
 .feature-strip li, .pillars strong, .icon-grid strong, .card h3, .contact-info-card h3, .site-footer h3, .testimonial cite { font-family: var(--font-ui); }
 .icon-grid strong { font-size: 1.02rem; font-weight: 600; }
+
+/* Home hero: bright photo, no dark overlay; text sits on a soft white panel */
+.hero-landing::before { background: linear-gradient(90deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 100%); }
+.hero-landing { background-position: center 58%; }
+.hero-landing .hero-panel { display: inline-block; max-width: 620px; background: rgba(255,255,255,0.90); border-radius: var(--radius); padding: 2rem 2.25rem; box-shadow: 0 10px 40px rgba(20,40,60,0.18); border-left: 5px solid var(--green); }
+.hero-landing h1 { color: var(--navy); text-shadow: none; font-size: clamp(2rem, 4.4vw, 3.2rem); }
+.hero-landing .tagline { color: var(--ink); text-shadow: none; }
+.hero-landing .hero-kicker { color: var(--green); }
+@media (max-width: 760px) { .hero-landing .hero-panel { padding: 1.5rem 1.25rem; max-width: 100%; } .hero-landing { background-position: 62% 55%; } }
