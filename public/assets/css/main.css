@@ -478,9 +478,9 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
    panels. Appended last so it overrides the token-based rules above.
    ===================================================================== */
 :root {
-  --font-head: "Libre Baskerville", "Baskerville", "Times New Roman", serif;
-  --font-body: "Source Sans 3", "Source Sans Pro", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-ui: "Source Sans 3", "Source Sans Pro", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-head: "Nunito", "Nunito Sans", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: "Nunito Sans", "Nunito", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-ui: "Nunito Sans", "Nunito", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --navy: #1b3a5c; --blue: #1b3a5c; --blue-deep: #1e5c45;
   --green: #1e5c45; --gold: #c9a55a; --gold-text: #8a6a1f;
   --rose-text: #8a6a1f;
@@ -493,18 +493,18 @@ body { font-size: 1.0625rem; letter-spacing: -0.005em; }
   --shadow: 0 6px 22px rgba(27, 58, 92, 0.10);
 }
 body { font-family: var(--font-body); color: var(--ink); font-size: 1.125rem; line-height: 1.65; }
-h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); font-weight: 700; letter-spacing: 0; line-height: 1.15; }
-h1 { font-size: clamp(2.3rem, 5.2vw, 3.8rem); }
-h2 { font-size: clamp(1.7rem, 3.3vw, 2.4rem); }
+h1, h2, h3, h4 { font-family: var(--font-head); color: var(--navy); font-weight: 800; letter-spacing: -0.01em; line-height: 1.15; }
+h1 { font-size: clamp(2.2rem, 4.8vw, 3.4rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
 h3 { font-weight: 700; font-size: 1.2rem; }
-.section h2::after { content: ""; display: block; width: 56px; height: 2px; background: var(--gold); margin: 0.9rem 0 0; }
+.section h2::after { content: none; }
 .section .center h2::after { margin-left: auto; margin-right: auto; }
 .cta-band h2::after { content: none; }
-.eyebrow { color: var(--gold-text); font-family: var(--font-ui); font-weight: 700; letter-spacing: 0.2em; font-size: 0.78rem; }
+.eyebrow { color: var(--green); font-family: var(--font-ui); font-weight: 700; letter-spacing: 0; text-transform: none; font-size: 1rem; margin-bottom: 0.35rem; }
 
 .main-nav a, .main-nav .has-sub > button, .phone-link { font-family: var(--font-ui); font-weight: 600; }
 .main-nav a:hover, .main-nav a[aria-current="page"] { color: var(--green); border-bottom-color: var(--gold); }
-.btn { font-family: var(--font-ui); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; padding: 0.9rem 1.7rem; }
+.btn { font-family: var(--font-ui); font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 1rem; padding: 0.85rem 1.6rem; }
 .btn-primary { background: var(--green); color: #fff; border-color: var(--gold); }
 .btn-primary:hover { background: #174a37; color: #fff; border-color: var(--gold); }
 .btn-secondary { background: var(--navy); color: #fff; border-color: var(--navy); }
@@ -523,17 +523,17 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 .hero { background-color: var(--paper); background-image: linear-gradient(135deg, #ffffff 0%, var(--paper) 55%, var(--ice) 100%); border-bottom: 3px solid var(--gold); }
 .hero h1 { color: var(--navy); }
 .hero-photo h1 { color: #fff; }
-.hero-kicker { display: flex; align-items: center; gap: 1rem; font-family: var(--font-ui); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
-.hero-kicker::after { content: ""; flex: 0 0 90px; height: 2px; background: var(--gold); }
+.hero-kicker { display: block; font-family: var(--font-ui); font-weight: 700; font-size: 1.15rem; letter-spacing: 0; text-transform: none; color: var(--gold); margin-bottom: 0.5rem; }
+.hero-kicker::after { content: none; }
 .hero:not(.hero-photo) .hero-kicker { color: var(--gold-text); }
 .hero .tagline { color: var(--ink); font-size: 1.3rem; line-height: 1.6; max-width: 560px; }
 .hero-photo .tagline { color: #f3efe6; }
-.hero-landing h1 { font-size: clamp(2.7rem, 6.5vw, 4.8rem); text-shadow: 0 3px 24px rgba(8,30,22,.45); }
+.hero-landing h1 { font-size: clamp(2.4rem, 5.4vw, 4rem); text-shadow: 0 3px 24px rgba(8,30,22,.45); }
 .hero-landing .tagline { text-shadow: 0 1px 10px rgba(8,30,22,.5); }
 
 .feature-strip { background: var(--paper); border-bottom: 1px solid #e6dfd0; }
 .feature-strip ul { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); padding-top: 1.75rem; padding-bottom: 1.75rem; }
-.feature-strip li { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; text-align: center; padding: 0.25rem 1rem; border-left: 1px solid #ddd5c3; font-family: var(--font-ui); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy); }
+.feature-strip li { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; text-align: center; padding: 0.25rem 1rem; border-left: 1px solid #ddd5c3; font-family: var(--font-ui); font-weight: 700; font-size: 1rem; letter-spacing: 0; text-transform: none; color: var(--navy); }
 .feature-strip li:first-child { border-left: 0; }
 .fs-icon { width: 64px; height: 64px; border-radius: 50%; background: #f1ebdd; color: var(--green); display: inline-flex; align-items: center; justify-content: center; }
 .fs-icon svg { width: 30px; height: 30px; }
@@ -576,7 +576,7 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 .pillars { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; }
 .pillars li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.55rem; padding: 0.5rem 1rem; border-left: 1px solid #ddd5c3; }
 .pillars li:first-child { border-left: 0; }
-.pillars strong { font-family: var(--font-ui); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy); line-height: 1.35; }
+.pillars strong { font-family: var(--font-ui); font-weight: 700; font-size: 1.02rem; letter-spacing: 0; text-transform: none; color: var(--navy); line-height: 1.3; }
 .pillars li > span:last-child { color: var(--text-muted); font-size: 0.95rem; line-height: 1.45; }
 .pillars-note { margin: 2.5rem auto 0; border-top: 2px solid var(--gold); padding-top: 1.5rem; max-width: 760px; }
 .pillars-note p + p { margin-top: 0.6rem; }
@@ -591,7 +591,7 @@ h3 { font-weight: 700; font-size: 1.2rem; }
   background-repeat: no-repeat; background-position: right -120px bottom -60px, center, center; background-size: min(560px, 60%) auto, cover, cover;
   min-height: 380px;
 }
-.hero-page .tagline { font-family: var(--font-head); font-size: 1.35rem; line-height: 1.55; color: #3b4a52; }
+.hero-page .tagline { font-family: var(--font-body); font-size: 1.25rem; line-height: 1.55; color: #3b4a52; }
 .hero .btn { margin-top: 0.25rem; }
 .hero-page .btn-secondary { border-color: var(--navy); }
 @media (max-width: 760px) { .hero-page { background-size: 320px auto, cover, cover; background-position: right -40px bottom -10px, center, center; min-height: 340px; } .hero-page .tagline { font-size: 1.2rem; } }
@@ -599,7 +599,7 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 /* Testimonials */
 .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
 .testimonial { background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; border-top: 3px solid var(--gold); display: flex; flex-direction: column; }
-.testimonial blockquote { font-family: var(--font-head); font-style: italic; color: var(--ink); font-size: 1.05rem; line-height: 1.55; margin: 0; flex: 1; }
+.testimonial blockquote { font-family: var(--font-body); font-style: italic; color: var(--ink); font-size: 1.05rem; line-height: 1.55; margin: 0; flex: 1; }
 .testimonial cite { display: block; margin-top: 1rem; font-style: normal; font-family: var(--font-ui); font-weight: 600; color: var(--navy); font-size: 0.88rem; }
 .stars { color: var(--gold); letter-spacing: 0.15em; margin-bottom: 0.75rem; font-size: 1.05rem; }
 .section-alt .testimonial, .section-ice .testimonial { background: #fff; }
@@ -611,3 +611,6 @@ h3 { font-weight: 700; font-size: 1.2rem; }
 .floorplan .photo-placeholder { aspect-ratio: 4 / 3; }
 .floorplan h3 { margin-bottom: 0.25rem; }
 .floorplan .size { color: var(--green); font-weight: 600; font-size: 0.95rem; margin-bottom: 0.6rem; }
+
+/* Plain-case type: footer headings and feature labels */
+.site-footer h3 { text-transform: none; letter-spacing: 0; font-size: 1.05rem; }
