@@ -382,7 +382,7 @@ def render_post(p, posts):
 
 def render_blog_index(posts):
     meta = {
-        "title": "Family Resources: Assisted Living Guides for Families | Regency House, Hixson TN",
+        "title": "Family Resources | Regency House, Hixson TN",
         "description": "Plain-language guides for families considering assisted living or respite care in Hixson and the Chattanooga area: what to look for on a tour, how care is assessed, questions to ask, and daily life at Regency House.",
         "path": "/blog/", "nav": "blog",
     }
@@ -646,7 +646,7 @@ def _news_crumbs(*extra):
 
 def render_news_index(items, archive_years):
     meta = {
-        "title": "Senior Care News: Senior Housing & Senior Care News | Regency House, Hixson TN",
+        "title": "Senior Care News | Regency House, Hixson TN",
         "description": "Senior housing and senior care news for families: assisted living trends, paying for care, health research, caregiving, benefits and the Chattanooga area, summarized by Regency House Assisted Living in Hixson, Tennessee.",
         "path": "/news/", "nav": "news",
     }
@@ -696,7 +696,7 @@ def render_news_index(items, archive_years):
 
 def render_news_archive(year, items, archive_years):
     meta = {
-        "title": f"Senior Care News from {year} | Regency House, Hixson TN",
+        "title": f"Senior Care News {year} | Regency House",
         "description": f"Older Senior Care News items from {year}: short summaries of articles about senior housing, paying for care, health research, caregiving and benefits, gathered for families by Regency House Assisted Living in Hixson, Tennessee.",
         "path": f"/news/archive/{year}/", "nav": "news",
     }
