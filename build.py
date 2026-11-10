@@ -16,22 +16,32 @@ top of each content file:
     sitemap: yes|no   (default yes)
     -->
 
+The blog ("Family Resources", content/blog/) and the Senior Care News page
+(content/news/) are built by build_blog() and build_news() below.
+
 Usage: python3 build.py
 """
 import datetime
+import email.utils
 import hashlib
 import html as _html
 import json
 import pathlib
 import re
 import sys
+import urllib.parse
 
 ROOT = pathlib.Path(__file__).parent
 TEMPLATE = (ROOT / "templates" / "base.html").read_text()
 CONTENT = ROOT / "content"
 PUBLIC = ROOT / "public"
 
-NAV_KEYS = ["home", "about", "al", "respite", "amenities", "gallery", "rates", "reviews", "contact"]
+SITE = "https://www.hixsonregencyhouse.com"
+SITE_NAME = "Regency House Assisted Living"
+PHONE_FMT = "(423) 870-0050"
+PHONE_TEL = "4238700050"
+
+NAV_KEYS = ["home", "about", "al", "respite", "amenities", "gallery", "rates", "reviews", "contact", "blog", "news"]
 
 ICONS = {
  "dining":   '<path d="M5 3v7a3 3 0 0 0 6 0V3"/><path d="M8 3v18"/><path d="M18 3c-2.2 0-3.5 2.8-3.5 6v4H18v8"/>',
@@ -92,7 +102,7 @@ def faq_schema(body: str) -> str:
         ],
     }
     return ('  <script type="application/ld+json">\n  '
-            + json.dumps(data, indent=2, ensure_ascii=False).replace("\n", "\n  ")
+            + json.dumps(data, indent=2, ensure_ascii=False).replace("</", "<\\/").replace("\n", "\n  ")
             + "\n  </script>\n")
 
 
@@ -113,10 +123,10 @@ def photo(m):
             '</strong>Save <code>' + name + '.webp</code> into assets/img and rebuild</span></div>')
 
 
-def parse(src: str):
+def parse(src: str, name="content file"):
     m = re.match(r"\s*<!--meta\s*(.*?)-->\s*", src, re.S)
     if not m:
-        sys.exit("content file missing <!--meta --> block")
+        sys.exit(f"BUILD FAILED — {name} is missing its <!--meta --> block")
     meta = {}
     for line in m.group(1).strip().splitlines():
         k, _, v = line.partition(":")
@@ -144,39 +154,639 @@ def check_unique_images():
     if dups:
         sys.exit(f"BUILD FAILED — image(s) used more than once: {dups}")
 
+
+# ---------------------------------------------------------------------------
+# Shared rendering
+# ---------------------------------------------------------------------------
+def _ld(data):
+    """A JSON-LD <script> block. "</" is escaped inside the JSON so that text from
+    a content file or Airtable can never close the tag early."""
+    return ('<script type="application/ld+json">'
+            + json.dumps(data, ensure_ascii=False).replace("</", "<\\/") + "</script>\n")
+
+
+def render_html(meta, body, head_extra=""):
+    """Wrap a body in templates/base.html. Placeholders inside the body
+    ({{phone_fmt}}, {{phone_tel}}, {{icon:...}}, {{photo:...}}) are resolved too."""
+    html = TEMPLATE.replace("{{content}}", body)
+    repl = {
+        "phone_tel": PHONE_TEL,
+        "phone_fmt": PHONE_FMT,
+        "title": _html.escape(meta["title"], quote=False),
+        "description": _html.escape(meta.get("description", ""), quote=True),
+        "path": meta["path"],
+        "year": str(datetime.date.today().year),
+        "css_v": fhash(PUBLIC / "assets" / "css" / "main.css"),
+        "js_v": fhash(PUBLIC / "assets" / "js" / "main.js"),
+        "head_extra": meta.get("head_extra", "") + head_extra,
+        "body_attr": (" " + meta["body_attr"]) if meta.get("body_attr") else "",
+    }
+    for key in NAV_KEYS:
+        repl[f"active_{key}"] = 'aria-current="page"' if meta.get("nav") == key else ""
+    for k, v in repl.items():
+        html = html.replace("{{%s}}" % k, v)
+    html = re.sub(r"\{\{icon:([a-z]+)\}\}", lambda m: icon(m.group(1)), html)
+    html = PHOTO_RE.sub(photo, html)
+    return html
+
+
+def _fmt_date(iso):
+    d = datetime.date.fromisoformat(iso)
+    return f"{d.strftime('%B')} {d.day}, {d.year}"
+
+
+def _rfc822(iso):
+    d = datetime.date.fromisoformat(iso)
+    dt = datetime.datetime(d.year, d.month, d.day, 12, 0, tzinfo=datetime.timezone.utc)
+    return email.utils.format_datetime(dt)
+
+
+# ---------------------------------------------------------------------------
+# Blog ("Family Resources")
+#
+# One file per post in content/blog/<slug>.html, same <!--meta --> block as a
+# page plus: date (YYYY-MM-DD, required), headline, excerpt, image, image_alt,
+# author, tags (comma separated), keyword, updated (YYYY-MM-DD), status
+# (published|draft; drafts are skipped). An optional content/blog/<slug>.head.html
+# is injected into <head> (schema, extra meta). The build writes
+# /blog/<slug>/index.html, /blog/index.html, /feed.xml and sitemap entries.
+# ---------------------------------------------------------------------------
+BLOG = CONTENT / "blog"
+BLOG_TITLE = "Family Resources"
+BLOG_DEFAULT_CARD_IMAGE = "/assets/img/exterior-front.webp"
+ORG = {"@type": "Organization", "name": SITE_NAME, "url": SITE,
+       "logo": {"@type": "ImageObject", "url": SITE + "/assets/img/logo.svg"}}
+
+
+# The tour call to action under every blog post and news page ({{phone_*}} is resolved by render_html).
+TOUR_CTA = """<div class="post-cta">
+      <h2>Questions about assisted living in Hixson?</h2>
+      <p>Our team answers questions like these every day, with no pressure. Call {{phone_fmt}} or schedule a private tour of Regency House on Hamill Road.</p>
+      <p class="cta-actions"><a href="/contact-us/" class="btn btn-primary">Schedule a Tour</a> <a href="tel:{{phone_tel}}" class="btn btn-secondary" data-track="phone">Call {{phone_fmt}}</a></p>
+    </div>"""
+
+
+# Headlines from other publishers' feeds, collected by scripts/fetch_news_feeds.py
+# (GitHub Actions, every few hours) into content/news_feeds.json.
+NEWS_FEEDS = CONTENT / "news_feeds.json"
+
+
+def load_feed_headlines():
+    if not NEWS_FEEDS.exists():
+        return [], ""
+    try:
+        data = json.loads(NEWS_FEEDS.read_text())
+    except ValueError:
+        print("news feeds: content/news_feeds.json is not valid JSON; skipped")
+        return [], ""
+    items = [i for i in data.get("items", []) if str(i.get("link", "")).startswith(("https://", "http://"))]
+    return items, data.get("fetched_at", "")
+
+
+def _headline_li(i):
+    day = i["published"][:10]
+    return (f'<li><a href="{_html.escape(i["link"])}" target="_blank" rel="noopener">{_html.escape(i["title"])}</a>'
+            f'<span class="headline-meta">{_html.escape(i["source"])} &middot; <time datetime="{day}">{_fmt_date(day)}</time></span></li>')
+
+
+def render_feed_headlines(items, fetched_at, limit=30):
+    if not items:
+        return ""
+    updated = f' <span class="headlines-updated">Updated {_fmt_date(fetched_at[:10])}</span>' if fetched_at else ""
+    sources = sorted({i["source"] for i in items})
+    return (f'<section class="headlines" aria-labelledby="headlines-h"><h2 id="headlines-h">Headlines from across senior care{updated}</h2>'
+            f'<p class="headlines-intro">The latest stories from {len(sources)} senior living, aging and benefits publishers. Each headline opens the original article.</p>'
+            '<ol class="headline-list">' + "".join(_headline_li(i) for i in items[:limit]) + "</ol></section>")
+
+
+def render_home_headlines(items, limit=4):
+    """The {{news_headlines}} token on a page: the newest publisher headlines."""
+    if not items:
+        return ""
+    return ('<section class="section section-alt home-news"><div class="container"><p class="eyebrow">Senior Care News</p>'
+            '<h2>What families are reading this week</h2><ol class="headline-list headline-cards">'
+            + "".join(_headline_li(i) for i in items[:limit])
+            + '</ol><p class="center"><a href="/news/" class="btn btn-secondary btn-arrow">All senior care news</a></p></div></section>')
+
+
+def load_posts():
+    posts = []
+    if not BLOG.exists():
+        return posts
+    for f in sorted(BLOG.glob("*.html")):
+        if f.stem.endswith(".head"):
+            continue
+        meta, body = parse(f.read_text(), f.name)
+        if meta.get("status", "published").strip().lower() == "draft":
+            continue
+        slug = meta.get("slug", f.stem).strip()
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            sys.exit(f"BUILD FAILED — blog slug {slug!r} must be lowercase letters, digits and hyphens")
+        if "date" not in meta:
+            sys.exit(f"BUILD FAILED — blog post {f.name} has no date")
+        datetime.date.fromisoformat(meta["date"])
+        if meta.get("updated"):
+            datetime.date.fromisoformat(meta["updated"])
+        meta["path"] = f"/blog/{slug}/"
+        meta.setdefault("nav", "blog")
+        headline = meta.get("headline") or meta["title"].split(" | ")[0]
+        words = len(re.sub(r"<[^>]+>", " ", body).split())
+        head_file = BLOG / (f.stem + ".head.html")
+        posts.append({
+            "meta": meta, "body": body, "slug": slug, "path": meta["path"], "headline": headline,
+            "excerpt": meta.get("excerpt") or meta.get("description", ""),
+            "image": meta.get("image", ""), "image_alt": meta.get("image_alt", headline),
+            "author": meta.get("author", SITE_NAME),
+            "tags": [t.strip() for t in meta.get("tags", "").split(",") if t.strip()],
+            "minutes": max(1, round(words / 200)),
+            "head_extra": head_file.read_text() if head_file.exists() else "",
+        })
+    posts.sort(key=lambda p: (p["meta"]["date"], p["slug"]), reverse=True)
+    return posts
+
+
+def _post_card(p):
+    img = p["image"] or BLOG_DEFAULT_CARD_IMAGE
+    return (
+        f'<article class="card post-card">'
+        f'<a href="{p["path"]}" tabindex="-1" aria-hidden="true"><img src="{img}" alt="" loading="lazy"></a>'
+        f'<div class="card-body">'
+        f'<p class="post-meta"><time datetime="{p["meta"]["date"]}">{_fmt_date(p["meta"]["date"])}</time> &middot; {p["minutes"]} min read</p>'
+        f'<h2 class="post-card-title"><a href="{p["path"]}">{_html.escape(p["headline"])}</a></h2>'
+        f'<p>{_html.escape(p["excerpt"])}</p>'
+        f'<a href="{p["path"]}" class="btn btn-secondary">Read the article</a>'
+        f'</div></article>'
+    )
+
+
+def render_post(p, posts):
+    m = p["meta"]
+    hero_cls = ' hero-photo' if p["image"] else ""
+    hero_style = f' style="background-image:url(\'{p["image"]}\')"' if p["image"] else ""
+    tags = "".join(f'<li>{_html.escape(t)}</li>' for t in p["tags"])
+    tags_html = f'<ul class="post-tags" aria-label="Topics">{tags}</ul>' if tags else ""
+    related = [q for q in posts if q["slug"] != p["slug"]][:3]
+    related_html = ""
+    if related:
+        related_html = (
+            '<section class="section section-alt"><div class="container">'
+            '<p class="eyebrow">Keep reading</p><h2>More family resources</h2>'
+            f'<div class="card-grid post-list">{"".join(_post_card(q) for q in related)}</div>'
+            '<p class="post-all"><a href="/blog/">All articles</a></p></div></section>'
+        )
+    body = f"""<section class="hero hero-page hero-post{hero_cls}"{hero_style}>
+  <div class="container">
+    <p class="eyebrow">{BLOG_TITLE}</p>
+    <h1>{_html.escape(p["headline"])}</h1>
+    <p class="tagline">{_html.escape(p["excerpt"])}</p>
+  </div>
+</section>
+<section class="section">
+  <article class="container narrow post">
+    <p class="post-meta"><time datetime="{m["date"]}">{_fmt_date(m["date"])}</time> &middot; {_html.escape(p["author"])} &middot; {p["minutes"]} min read</p>
+    <div class="post-body">
+{p["body"]}
+    </div>
+    {tags_html}
+    {TOUR_CTA}
+    <p class="post-all"><a href="/blog/">All articles</a></p>
+  </article>
+</section>
+{related_html}"""
+    abs_url = SITE + p["path"]
+    article = {
+        "@context": "https://schema.org", "@type": "Article",
+        "headline": p["headline"], "description": m.get("description", ""),
+        "datePublished": m["date"], "dateModified": m.get("updated", m["date"]),
+        "author": {"@type": "Organization", "name": SITE_NAME, "url": SITE},
+        "publisher": ORG,
+        "mainEntityOfPage": {"@type": "WebPage", "@id": abs_url},
+    }
+    if p["image"]:
+        article["image"] = [SITE + p["image"]]
+    if p["tags"]:
+        article["keywords"] = ", ".join(p["tags"])
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
+        {"@type": "ListItem", "position": 2, "name": BLOG_TITLE, "item": SITE + "/blog/"},
+        {"@type": "ListItem", "position": 3, "name": p["headline"], "item": abs_url},
+    ]}
+    head = (
+        _ld(article) + _ld(crumbs)
+        + f'<meta property="article:published_time" content="{m["date"]}">\n'
+        + (f'<meta property="og:image" content="{SITE}{p["image"]}">\n' if p["image"] else "")
+        + p["head_extra"] + faq_schema(p["body"])
+    )
+    return render_html(m, body, head)
+
+
+def render_blog_index(posts):
+    meta = {
+        "title": "Family Resources: Assisted Living Guides for Families | Regency House, Hixson TN",
+        "description": "Plain-language guides for families considering assisted living or respite care in Hixson and the Chattanooga area: what to look for on a tour, how care is assessed, questions to ask, and daily life at Regency House.",
+        "path": "/blog/", "nav": "blog",
+    }
+    cards = "".join(_post_card(p) for p in posts)
+    listing = (f'<div class="card-grid post-list">{cards}</div>' if cards else
+               '<div class="post-empty"><h2>Articles are on the way</h2>'
+               '<p>We are writing our first guides for families now. In the meantime, our team is glad to answer '
+               'questions by phone at <a href="tel:{{phone_tel}}" data-track="phone">{{phone_fmt}}</a>, '
+               'or you can <a href="/contact-us/">schedule a tour</a>.</p></div>')
+    body = f"""<section class="hero hero-page">
+  <div class="container">
+    <p class="eyebrow">{BLOG_TITLE}</p>
+    <h1>Guidance for families, from people who do this every day</h1>
+    <p class="tagline">Plain answers about assisted living, respite care, and daily life in our Hixson community.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    {listing}
+    <p class="post-subscribe">Get new articles by RSS: <a href="/feed.xml">feed.xml</a></p>
+  </div>
+</section>"""
+    head = _ld({
+        "@context": "https://schema.org", "@type": "CollectionPage", "name": meta["title"],
+        "url": SITE + "/blog/", "description": meta["description"], "publisher": ORG})
+    return render_html(meta, body, head)
+
+
+def render_feed(posts):
+    items = []
+    for p in posts[:20]:
+        url = SITE + p["path"]
+        items.append(
+            f"  <item>\n    <title>{_html.escape(p['headline'])}</title>\n    <link>{url}</link>\n"
+            f"    <guid isPermaLink=\"true\">{url}</guid>\n    <pubDate>{_rfc822(p['meta']['date'])}</pubDate>\n"
+            f"    <description>{_html.escape(p['excerpt'])}</description>\n  </item>"
+        )
+    last = _rfc822(posts[0]["meta"]["date"]) if posts else _rfc822(datetime.date.today().isoformat())
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n'
+        f'  <title>{SITE_NAME}: {BLOG_TITLE}</title>\n  <link>{SITE}/blog/</link>\n'
+        '  <description>Guides for families considering assisted living and respite care in Hixson, Tennessee.</description>\n'
+        f'  <language>en-us</language>\n  <lastBuildDate>{last}</lastBuildDate>\n'
+        f'  <atom:link href="{SITE}/feed.xml" rel="self" type="application/rss+xml"/>\n'
+        + ("\n".join(items) + "\n" if items else "") + "</channel>\n</rss>\n"
+    )
+
+
+def build_blog():
+    """Write the blog pages and feed. Returns [(path, lastmod)] for the sitemap."""
+    posts = load_posts()
+    entries = []
+    for p in posts:
+        out = PUBLIC / p["path"].strip("/") / "index.html"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(render_post(p, posts))
+        entries.append((p["path"], p["meta"].get("updated", p["meta"]["date"])))
+        print(f"built {out.relative_to(ROOT)}")
+    (PUBLIC / "blog").mkdir(parents=True, exist_ok=True)
+    (PUBLIC / "blog" / "index.html").write_text(render_blog_index(posts))
+    (PUBLIC / "feed.xml").write_text(render_feed(posts))
+    today = datetime.date.today().isoformat()
+    entries.append(("/blog/", posts[0]["meta"]["date"] if posts else today))
+    print(f"built blog index + feed.xml ({len(posts)} posts)")
+    return entries
+
+
+# ---------------------------------------------------------------------------
+# Senior Care News
+#
+# A curated page of short summaries that link out to other publishers'
+# articles, plus our own updates. One file per item in content/news/<slug>.html
+# (the file name is the slug) with a <!--meta --> block: title, source,
+# source_url (http(s); the community category may use a site path such as
+# /blog/), date (YYYY-MM-DD, the day we posted it), published (the article's
+# own date, optional), category (a NEWS_CATEGORIES key) and status
+# (published|draft; drafts are skipped), then a short HTML body made of p, a,
+# strong, em, ul, ol and li only. The build writes /news/index.html (the newest
+# NEWS_PAGE_SIZE items under month headings), /news/archive/<year>/ for anything
+# older, /news/feed.xml and sitemap entries.
+# ---------------------------------------------------------------------------
+NEWS = CONTENT / "news"
+NEWS_TITLE = "Senior Care News"
+NEWS_INTRO = ("Senior housing, senior care and caregiving news from trusted publishers, gathered by our team "
+              "for families in Hixson and the Chattanooga area. The summaries are ours; the full stories belong to their publishers.")
+NEWS_DISCLAIMER = ("We share these links for information only. They are not medical, legal or financial "
+                   "advice, and we are not responsible for the content of other websites.")
+NEWS_CATEGORIES = {      # meta category -> label on the badge and the filter chip (the Airtable option names)
+    "finance": "Paying for care",
+    "health": "Health & research",
+    "caregiving": "Caregiving & family",
+    "policy": "Policy & benefits",
+    "industry": "Senior housing",
+    "local": "Chattanooga & Hixson",
+    "community": "Community update",
+}
+NEWS_PAGE_SIZE = 60      # newest items on /news/; older ones move to /news/archive/<year>/
+NEWS_FEED_SIZE = 20      # items in /news/feed.xml and in the ItemList schema
+NEWS_TAGS = {"p", "a", "strong", "em", "ul", "ol", "li"}
+NEWS_TAG_RE = re.compile(r"</?([a-zA-Z][a-zA-Z0-9]*)")
+NEWS_UNSAFE_RE = re.compile(r"</?(script|iframe|style|object|embed|form)\b|\son[a-z]+\s*=|javascript\s*:", re.I)
+# The topic filter. The chip row starts hidden, so without JavaScript every item is simply shown.
+NEWS_SCRIPT = """<script>
+(function () {
+  var chips = document.querySelector(".news-chips");
+  if (!chips) return;
+  chips.hidden = false;
+  chips.addEventListener("click", function (e) {
+    var chip = e.target.closest("button");
+    if (!chip) return;
+    var cat = chip.dataset.category;
+    chips.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", b === chip ? "true" : "false"); });
+    document.querySelectorAll(".news-item").forEach(function (it) { it.hidden = !!cat && it.dataset.category !== cat; });
+    document.querySelectorAll(".news-group").forEach(function (g) { g.hidden = !g.querySelector(".news-item:not([hidden])"); });
+    var empty = document.querySelector(".news-empty");
+    if (empty) empty.hidden = !!document.querySelector(".news-item:not([hidden])");
+  });
+})();
+</script>"""
+
+
+def _is_http_url(url):
+    try:
+        parts = urllib.parse.urlsplit(url)
+    except ValueError:
+        return False
+    return parts.scheme in ("http", "https") and bool(parts.netloc)
+
+
+def _iso_date(value, what):
+    """Normalise a YYYY-MM-DD string, or stop the build with a clear message."""
+    try:
+        return datetime.date.fromisoformat(value).isoformat()
+    except ValueError:
+        sys.exit(f"BUILD FAILED — {what} must be a YYYY-MM-DD date, not {value!r}")
+
+
+def _plain_text(markup):
+    """Tags stripped, entities resolved, whitespace collapsed (feed descriptions)."""
+    text = re.sub(r"</?(?:a|strong|em)\b[^>]*>", "", markup)         # inline tags vanish...
+    return " ".join(_html.unescape(re.sub(r"<[^>]+>", " ", text)).split())  # ...block tags become spaces
+
+
+def load_news_items():
+    items = []
+    if not NEWS.exists():
+        return items
+    for f in sorted(NEWS.glob("*.html")):
+        meta, body = parse(f.read_text(), f.name)
+        if meta.get("status", "published").strip().lower() == "draft":
+            continue
+        slug = f.stem
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            sys.exit(f"BUILD FAILED — news file name {f.name!r} must be lowercase letters, digits and hyphens")
+        for key in ("title", "source_url", "date", "category"):
+            if not meta.get(key, "").strip():
+                sys.exit(f"BUILD FAILED — news item {f.name} has no {key}")
+        category = meta["category"].strip().lower()
+        if category not in NEWS_CATEGORIES:
+            sys.exit(f"BUILD FAILED — news item {f.name} has unknown category {meta['category']!r} "
+                     f"(use one of: {', '.join(NEWS_CATEGORIES)})")
+        url = meta["source_url"].strip()
+        external = _is_http_url(url)
+        site_path = category == "community" and re.fullmatch(r"/(?!/)[^\s<>\"'\\]*", url) is not None
+        if not (external or site_path):
+            sys.exit(f"BUILD FAILED — news item {f.name} source_url must start with http:// or https://"
+                     + (" (or / for a page on this site)" if category == "community" else ""))
+        if NEWS_UNSAFE_RE.search(body):
+            sys.exit(f"BUILD FAILED — news item {f.name} body contains script, iframe, style, object, embed, "
+                     "form or an on* attribute")
+        bad_tags = {t.lower() for t in NEWS_TAG_RE.findall(body)} - NEWS_TAGS
+        if bad_tags:
+            sys.exit(f"BUILD FAILED — news item {f.name} body may only use {', '.join(sorted(NEWS_TAGS))} tags, "
+                     f"not {', '.join(sorted(bad_tags))}")
+        published = meta.get("published", "").strip()
+        source = meta.get("source", "").strip()
+        if not source:
+            source = (urllib.parse.urlsplit(url).hostname or url) if external else SITE_NAME
+        items.append({
+            "meta": meta, "body": body.strip(), "slug": slug, "title": meta["title"].strip(),
+            "source": source, "url": url, "external": external,
+            "date": _iso_date(meta["date"].strip(), f"news item {f.name} date"),
+            "published": _iso_date(published, f"news item {f.name} published") if published else "",
+            "category": category, "label": NEWS_CATEGORIES[category], "text": _plain_text(body),
+        })
+    items.sort(key=lambda i: (i["date"], i["slug"]), reverse=True)
+    return items
+
+
+def _news_abs(i):
+    """The item's link as an absolute URL (community items may point at this site)."""
+    return i["url"] if i["external"] else SITE + i["url"]
+
+
+def _news_item(i):
+    href = _html.escape(i["url"])
+    target = ' target="_blank" rel="noopener"' if i["external"] else ""
+    when = _html.escape(i["source"])
+    if i["published"]:
+        when += f' &middot; Published <time datetime="{i["published"]}">{_fmt_date(i["published"])}</time>'
+    when += f' &middot; Shared <time datetime="{i["date"]}">{_fmt_date(i["date"])}</time>'
+    more = f'Read the full story at {_html.escape(i["source"])}' if i["external"] else "Read more on our site"
+    return (
+        f'<article class="news-item news-{i["category"]}" id="{i["slug"]}" data-category="{i["category"]}">'
+        f'<p class="news-badge">{_html.escape(i["label"])}</p>'
+        f'<h3 class="news-title"><a href="{href}"{target}>{_html.escape(i["title"])}</a></h3>'
+        f'<p class="news-meta">{when}</p>'
+        f'<div class="news-body">{i["body"]}</div>'
+        f'<p class="news-more"><a href="{href}"{target}>{more}</a></p>'
+        f'</article>'
+    )
+
+
+def _news_groups(items):
+    """Items (already newest first) grouped under month headings: [("October 2026", [...]), ...]."""
+    groups = []
+    for i in items:
+        d = datetime.date.fromisoformat(i["date"])
+        month = f"{d.strftime('%B')} {d.year}"
+        if not groups or groups[-1][0] != month:
+            groups.append((month, []))
+        groups[-1][1].append(i)
+    return groups
+
+
+NEWS_INLINE_CTA = ('<aside class="news-cta"><p class="news-cta-title">Looking at assisted living for a parent?</p>'
+                   '<p>See our apartments and common areas, or come for a visit and meet the team on Hamill Road.</p>'
+                   '<p class="cta-actions"><a href="/contact-us/" class="btn btn-primary" data-track="news-tour">Schedule a Tour</a> '
+                   '<a href="/rates-floor-plans/" class="btn btn-secondary" data-track="news-residences">Explore Residences</a></p></aside>')
+NEWS_INLINE_AFTER = 3    # the inline tour card follows this many items on /news/
+
+
+def _news_list(items, inline_cta=False):
+    out, n = [], 0
+    for month, group in _news_groups(items):
+        parts = []
+        for i in group:
+            parts.append(_news_item(i))
+            n += 1
+            if inline_cta and n == NEWS_INLINE_AFTER:
+                parts.append(NEWS_INLINE_CTA)
+        out.append(f'<div class="news-group"><h2 class="news-month">{month}</h2>\n' + "\n".join(parts) + "\n</div>")
+    return "\n".join(out)
+
+
+def _news_chips():
+    chips = ['<button type="button" data-category="" aria-pressed="true">All</button>'] + [
+        f'<button type="button" data-category="{key}" aria-pressed="false">{_html.escape(label)}</button>'
+        for key, label in NEWS_CATEGORIES.items()]
+    return '<div class="news-chips" role="group" aria-label="Show one topic" hidden>' + "".join(chips) + "</div>"
+
+
+def _news_crumbs(*extra):
+    """BreadcrumbList for /news/ and the pages below it; extra = (name, path) pairs."""
+    crumbs = [("Home", "/"), (NEWS_TITLE, "/news/"), *extra]
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": n, "name": name, "item": SITE + path}
+        for n, (name, path) in enumerate(crumbs, 1)]}
+
+
+def render_news_index(items, archive_years):
+    meta = {
+        "title": "Senior Care News: Senior Housing & Senior Care News | Regency House, Hixson TN",
+        "description": "Senior housing and senior care news for families: assisted living trends, paying for care, health research, caregiving, benefits and the Chattanooga area, summarized by Regency House Assisted Living in Hixson, Tennessee.",
+        "path": "/news/", "nav": "news",
+    }
+    listing = _news_list(items, inline_cta=True)
+    if listing:
+        picks = (f'<h2 class="news-picks-h">Our picks, summarized by our team</h2>\n    {_news_chips()}\n'
+                 '    <p class="news-empty" hidden>Nothing in this topic yet. Check back soon.</p>\n'
+                 f'    {listing}')
+    else:
+        picks = ('<div class="post-empty"><h2>Our first picks are on the way</h2>'
+                 '<p>Our team is gathering senior care news worth a family’s time. Check back soon, or call '
+                 '<a href="tel:{{phone_tel}}" data-track="phone">{{phone_fmt}}</a> with any question about assisted living in Hixson.</p></div>')
+    archive = ""
+    if archive_years:
+        links = " &middot; ".join(f'<a href="/news/archive/{y}/">{y}</a>' for y in archive_years)
+        archive = f'<p class="news-archive">Older items: {links}</p>'
+    body = f"""<section class="hero hero-page">
+  <div class="container">
+    <p class="eyebrow">For Families</p>
+    <h1>{NEWS_TITLE}</h1>
+    <p class="tagline">{NEWS_INTRO}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container narrow news">
+    {render_feed_headlines(*load_feed_headlines())}
+    {picks}
+    {archive}
+    {TOUR_CTA}
+    <p class="post-subscribe">Get new items by RSS: <a href="/news/feed.xml">news/feed.xml</a></p>
+    <p class="news-disclaimer">{NEWS_DISCLAIMER}</p>
+  </div>
+</section>
+{NEWS_SCRIPT}"""
+    head = _ld({
+        "@context": "https://schema.org", "@type": "CollectionPage", "name": meta["title"],
+        "url": SITE + "/news/", "description": meta["description"], "publisher": ORG,
+    }) + _ld({
+        "@context": "https://schema.org", "@type": "ItemList", "name": NEWS_TITLE,
+        "itemListOrder": "https://schema.org/ItemListOrderDescending",
+        "numberOfItems": len(items[:NEWS_FEED_SIZE]),
+        "itemListElement": [{"@type": "ListItem", "position": n, "name": i["title"], "url": _news_abs(i)}
+                            for n, i in enumerate(items[:NEWS_FEED_SIZE], 1)],
+    }) + _ld(_news_crumbs())
+    return render_html(meta, body, head)
+
+
+def render_news_archive(year, items, archive_years):
+    meta = {
+        "title": f"Senior Care News from {year} | Regency House, Hixson TN",
+        "description": f"Older Senior Care News items from {year}: short summaries of articles about senior housing, paying for care, health research, caregiving and benefits, gathered for families by Regency House Assisted Living in Hixson, Tennessee.",
+        "path": f"/news/archive/{year}/", "nav": "news",
+    }
+    others = " &middot; ".join(f"<strong>{y}</strong>" if y == year else f'<a href="/news/archive/{y}/">{y}</a>'
+                               for y in archive_years)
+    body = f"""<section class="hero hero-page">
+  <div class="container">
+    <p class="eyebrow">{NEWS_TITLE}</p>
+    <h1>News archive: {year}</h1>
+    <p class="tagline">{NEWS_INTRO}</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container narrow news">
+    <p class="news-archive"><a href="/news/">Latest news</a> &middot; Archive: {others}</p>
+    {_news_chips()}
+    <p class="news-empty" hidden>Nothing in this topic for {year}.</p>
+    {_news_list(items)}
+    <p class="news-disclaimer">{NEWS_DISCLAIMER}</p>
+    <p class="post-all"><a href="/news/">Back to the latest news</a></p>
+  </div>
+</section>
+{NEWS_SCRIPT}"""
+    head = _ld({
+        "@context": "https://schema.org", "@type": "CollectionPage", "name": meta["title"],
+        "url": SITE + meta["path"], "description": meta["description"], "publisher": ORG,
+    }) + _ld(_news_crumbs((f"{year} archive", meta["path"])))
+    return render_html(meta, body, head)
+
+
+def render_news_feed(items):
+    out = []
+    for i in items[:NEWS_FEED_SIZE]:
+        out.append(
+            f"  <item>\n    <title>{_html.escape(i['title'])}</title>\n    <link>{_html.escape(_news_abs(i))}</link>\n"
+            f"    <guid isPermaLink=\"false\">{SITE}/news/#{i['slug']}</guid>\n    <pubDate>{_rfc822(i['date'])}</pubDate>\n"
+            f"    <category>{_html.escape(i['label'])}</category>\n    <description>{_html.escape(i['text'])}</description>\n  </item>"
+        )
+    last = _rfc822(items[0]["date"]) if items else _rfc822(datetime.date.today().isoformat())
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n'
+        f'  <title>{SITE_NAME}: {NEWS_TITLE}</title>\n  <link>{SITE}/news/</link>\n'
+        f'  <description>{_html.escape(NEWS_INTRO)}</description>\n'
+        f'  <language>en-us</language>\n  <lastBuildDate>{last}</lastBuildDate>\n'
+        f'  <atom:link href="{SITE}/news/feed.xml" rel="self" type="application/rss+xml"/>\n'
+        + ("\n".join(out) + "\n" if out else "") + "</channel>\n</rss>\n"
+    )
+
+
+def build_news():
+    """Write the news page, its archive pages and feed. Returns [(path, lastmod)] for the sitemap."""
+    items = load_news_items()
+    by_year = {}
+    for i in items[NEWS_PAGE_SIZE:]:
+        by_year.setdefault(i["date"][:4], []).append(i)
+    archive_years = sorted(by_year, reverse=True)
+    (PUBLIC / "news").mkdir(parents=True, exist_ok=True)
+    (PUBLIC / "news" / "index.html").write_text(render_news_index(items[:NEWS_PAGE_SIZE], archive_years))
+    (PUBLIC / "news" / "feed.xml").write_text(render_news_feed(items))
+    today = datetime.date.today().isoformat()
+    entries = [("/news/", items[0]["date"] if items else today)]
+    for year in archive_years:
+        out = PUBLIC / "news" / "archive" / year / "index.html"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(render_news_archive(year, by_year[year], archive_years))
+        entries.append((f"/news/archive/{year}/", by_year[year][0]["date"]))
+        print(f"built {out.relative_to(ROOT)}")
+    print(f"built news index + news/feed.xml ({len(items)} items)")
+    return entries
+
+
+# ---------------------------------------------------------------------------
+# Pages
+# ---------------------------------------------------------------------------
 def build():
     check_unique_images()
-    year = str(datetime.date.today().year)
-    css_v = fhash(PUBLIC / "assets" / "css" / "main.css")
-    js_v = fhash(PUBLIC / "assets" / "js" / "main.js")
     sitemap_paths = []
     for f in sorted(CONTENT.glob("*.html")):
         if f.stem.endswith(".head"):
             continue
-        meta, body = parse(f.read_text())
-        html = TEMPLATE
+        meta, body = parse(f.read_text(), f.name)
         body = re.sub(r"\{\{icon:([a-z]+)\}\}", lambda m: icon(m.group(1)), body)
         body = PHOTO_RE.sub(photo, body)
-        repl = {
-            "title": meta["title"],
-            "description": meta.get("description", ""),
-            "path": meta["path"],
-            "content": body,
-            "year": year,
-            "css_v": css_v,
-            "js_v": js_v,
-            "head_extra": meta.get("head_extra", "") + faq_schema(body),
-            "body_attr": (" " + meta["body_attr"]) if meta.get("body_attr") else "",
-        }
-        for key in NAV_KEYS:
-            repl[f"active_{key}"] = 'aria-current="page"' if meta.get("nav") == key else ""
-        for k, v in repl.items():
-            html = html.replace("{{%s}}" % k, v)
-        html = re.sub(r"\{\{icon:([a-z]+)\}\}", lambda m: icon(m.group(1)), html)
-        # Support per-page head extras stored in a sibling file
+        if "{{news_headlines}}" in body:
+            body = body.replace("{{news_headlines}}", render_home_headlines(load_feed_headlines()[0]))
+        # Per-page head extras stored in a sibling file, plus the FAQ schema derived from the markup
         extra_file = CONTENT / (f.stem + ".head.html")
-        if extra_file.exists():
-            html = html.replace("</head>", extra_file.read_text() + "\n</head>")
+        head_extra = (extra_file.read_text() + "\n" if extra_file.exists() else "") + faq_schema(body)
+        html = render_html(meta, body, head_extra)
         path = meta["path"]
         out = PUBLIC / path.strip("/") / "index.html" if path != "/" else PUBLIC / "index.html"
         if f.stem == "404":
@@ -187,10 +797,12 @@ def build():
             sitemap_paths.append(path)
         print(f"built {out.relative_to(ROOT)}")
 
+    blog_entries = build_blog()
+    news_entries = build_news()
     today = datetime.date.today().isoformat()
     urls = "\n".join(
-        f"  <url><loc>https://www.hixsonregencyhouse.com{p}</loc><lastmod>{today}</lastmod></url>"
-        for p in sitemap_paths
+        [f"  <url><loc>{SITE}{p}</loc><lastmod>{today}</lastmod></url>" for p in sitemap_paths]
+        + [f"  <url><loc>{SITE}{p}</loc><lastmod>{lm}</lastmod></url>" for p, lm in blog_entries + news_entries]
     )
     (PUBLIC / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -198,12 +810,12 @@ def build():
         f"{urls}\n</urlset>\n"
     )
     (PUBLIC / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\nSitemap: https://www.hixsonregencyhouse.com/sitemap.xml\n"
+        f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n"
     )
     # GitHub Pages custom domain
     (PUBLIC / "CNAME").write_text("www.hixsonregencyhouse.com\n")
     build_redirects()
-    print(f"built sitemap.xml ({len(sitemap_paths)} urls) + robots.txt")
+    print(f"built sitemap.xml ({len(sitemap_paths) + len(blog_entries) + len(news_entries)} urls) + robots.txt")
 
 def build_redirects():
     """GitHub Pages ignores public/_redirects (a Netlify/Cloudflare convention),
@@ -218,7 +830,7 @@ def build_redirects():
         if len(parts) < 2 or parts[0].startswith("#"):
             continue
         src, dst = parts[0], parts[1]
-        target = dst if dst.startswith("http") else "https://www.hixsonregencyhouse.com" + dst
+        target = dst if dst.startswith("http") else SITE + dst
         out = PUBLIC / src.strip("/") / "index.html"
         if out.exists() and "<!-- redirect stub -->" not in out.read_text():
             sys.exit(f"BUILD FAILED — redirect {src} collides with a real page")
