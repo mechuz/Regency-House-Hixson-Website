@@ -3,6 +3,10 @@ name: Build and deploy to GitHub Pages
 on:
   push:
     branches: [main, master]
+  schedule:
+    # Every 30 minutes, so /news/ picks up new senior care headlines from the
+    # publishers' RSS feeds soon after they are posted.
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -22,6 +26,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - name: Collect the latest senior care headlines
+        continue-on-error: true
+        run: python3 scripts/fetch_news_feeds.py
       - name: Build site
         run: python3 build.py
       - uses: actions/configure-pages@v5
