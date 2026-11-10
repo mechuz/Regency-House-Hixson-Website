@@ -1,0 +1,37 @@
+# System IDs — Regency House Hixson marketing (no secrets here)
+
+Business: Regency House Assisted Living, 2062 Hamill Road, Hixson, TN 37343.
+Phone (423) 870-0050 (only number). Email info@hixsonregencyhouse.com.
+Site https://www.hixsonregencyhouse.com (GitHub Pages, repo mechuz/Regency-House-Hixson-Website).
+Old domain regencyhouse-hixson.com (GoDaddy): to be 301-forwarded to the site.
+Rules: private pay only; no memory care or skilled nursing; no prices, specials or
+licence number; never name ownership, staff or residents. Time zone America/New_York.
+
+| System | ID |
+|---|---|
+| Cloud environment | Regency House Hixson marketing (env_017W5cVnTzAqJUdC41QqTHtS) |
+| Airtable base | applGKPSaitAuNQfZ (Regency House Hixson — Content Engine) |
+| Content Topics | tbloItRRgsodfBCnE |
+| Content Items | tblSFfvC2sMyfpjKR |
+| News Items | tbl7fndFitE6ObJ4L |
+| GBP Post Photos | tbl2kgdwv5SgogY5v |
+| GBP Post Log | tbln5K0mM6tDld2IB |
+| GBP Review Log | tblhctNHJxNXyPXOd |
+| GBP Review Actions | tbl3HLZG39Aa61fIH |
+| Manual Post Queue | tblRPDLBg8zvZTEsW |
+| Lead hook (Zapier durable workflow) | 01a1c623-9709-788e-b8ed-cfe0a9c64e3e |
+| Lead hook catch URL | https://hooks.zapier.com/hooks/catch/27563206/RAc4ZhMQP7nwB023/ |
+| FormSubmit fallback | formsubmit.co/51b2551f2845c13f18729befdff08eb7 (activated for this domain) |
+| Google Business Profile | Maps CID 12980515714540227546; claim pending (ownership) |
+| GA4 property | not created yet |
+| Google Ads customer | not created yet (own account, never Kirby's) |
+| Search Console | not set up yet |
+| Facebook page | https://www.facebook.com/regencyhouse2062/ (admin needed for Zapier) |
+| Yelp | no listing yet |
+
+Scheduled routines (bound to the CMO session):
+- Hixson News Curator (daily 7:13 AM ET)
+- Hixson Blog Writer (Sun/Mon/Wed/Fri 8:37 AM ET)
+- Hixson Content Editor (daily 9:17 AM ET)
+- Hixson Monday Report (Mon 7:47 AM ET)
+- GitHub Actions publisher: publish-blog.yml daily 15:30 UTC (needs repo secret AIRTABLE_TOKEN)
