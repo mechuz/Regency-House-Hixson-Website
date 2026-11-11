@@ -76,6 +76,17 @@
         team.innerHTML = "";
         location.replace(location.pathname);
       });
+      // "Make the phone icon": put #calls in the address so the home-screen icon opens My Calls Today directly.
+      var iconBtn = team.querySelector("[data-rh-icon]");
+      var iconSteps = team.querySelector("[data-rh-icon-steps]");
+      if (iconBtn && iconSteps) iconBtn.addEventListener("click", function () {
+        try { history.replaceState(null, "", location.pathname + "#calls"); } catch (e) {}
+        iconSteps.hidden = false;
+        iconBtn.hidden = true;
+      });
+      // Opened from the home-screen icon (/team/#calls): go straight to My Calls Today.
+      var go = team.querySelector('a[data-go="calls"]');
+      if (go && location.hash === "#calls") location.assign(go.href);
     });
   }
 
