@@ -50,7 +50,7 @@
         "name": "How short can a respite stay be?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Stays are typically a few days to several weeks, depending on availability and your parent’s care needs. Call (423) 870-0050 with your dates and we will tell you what can be arranged."
+          "text": "Stays are typically a few days to several weeks, depending on availability and your parent’s care needs. Request your dates above or call (423) 870-0050 and we will tell you what can be arranged."
         }
       },
       {
@@ -147,8 +147,8 @@
 <section class="hero hero-page">
   <div class="container">
     <h1>Respite &amp; Short-Term Care</h1>
-    <p class="tagline">Short-term stays with the same care and attention we provide our permanent residents.</p>
-    <a href="/contact-us/" class="btn btn-secondary btn-arrow">Schedule a Tour <span aria-hidden="true">&rarr;</span></a>
+    <p class="tagline">Short-term stays with the same care and attention we provide our permanent residents. Pick your dates below.</p>
+    <a href="#book" class="btn btn-secondary btn-arrow">Request a Stay <span aria-hidden="true">&rarr;</span></a>
   </div>
 </section>
 
@@ -159,9 +159,94 @@
       <h2>Support for Family Caregivers</h2>
       <p>Many people caring for a parent at home do so for years without a break. It is not sustainable, and caregivers who are exhausted cannot provide the care they want to.</p>
       <p>A respite stay is a short, planned stay at Regency House while you travel, recover from your own medical needs, attend to work, or simply rest. Respite residents receive the same care as our permanent residents: a private apartment, three meals a day, medication management, housekeeping, the activity calendar, and a care team on site around the clock.</p>
-      <a href="tel:4238700050" class="btn btn-primary" data-track="phone">Call (423) 870-0050</a>
+      <a href="#book" class="btn btn-primary btn-arrow">Pick Your Dates <span aria-hidden="true">&rarr;</span></a>
     </div>
     <img src="/assets/img/respite-suite.webp" alt="A furnished Regency House apartment with a sofa, television and a view to the bedroom" width="1200" height="900" loading="lazy">
+  </div>
+</section>
+
+<section class="section section-alt" id="book">
+  <div class="container">
+    <div class="center narrow">
+      <p class="eyebrow">Request a Stay</p>
+      <h2>Pick Your Dates, Request Your Stay</h2>
+      <p>Choose a check-in and a check-out date and send the request. Stays are typically a few days to several weeks. We confirm availability and quote the rate for your dates by phone, usually within one business day. No payment is taken online.</p>
+    </div>
+    <div class="booking-layout">
+      <div class="book-cal-wrap">
+        <div class="book-cal" id="book-cal" aria-label="Choose your stay dates"></div>
+        <div class="bc-summary book-cal" style="margin-top:1rem">
+          <div><div class="lbl">Check-in</div><div class="val" id="bks-in">&mdash;</div></div>
+          <div><div class="lbl">Check-out</div><div class="val" id="bks-out">&mdash;</div></div>
+          <div><div class="lbl">Stay</div><div class="val" id="bks-n">&mdash;</div></div>
+        </div>
+        <p class="bc-hint" id="bk-hint">Select your check-in date.</p>
+        <p class="approval-note"><strong>Assessment first:</strong> even for a stay of a few days, our nursing team completes a brief assessment of health history, medications and mobility before arrival. It is how we keep every resident safe.</p>
+      </div>
+      <div>
+        <noscript><p class="form-note">This form needs JavaScript. Please call us at <a href="tel:4238700050">(423) 870-0050</a>.</p></noscript>
+        <form class="contact-form" id="bk-form" action="/thank-you/" data-lead-form method="POST">
+          <input type="hidden" name="_cc" value="info@hixsonregencyhouse.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_subject" value="Respite booking request">
+          <input type="hidden" name="_next" value="https://www.hixsonregencyhouse.com/thank-you/">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Leave this field empty">
+          <input type="hidden" name="check_in" id="bk-checkin">
+          <input type="hidden" name="check_out" id="bk-checkout">
+          <input type="hidden" name="nights" id="bk-nights">
+          <h3 style="margin-bottom:1rem">Your Stay Request</h3>
+          <div class="form-row">
+            <label for="bk-care">Type of stay *</label>
+            <select id="bk-care" name="stay_type" required>
+              <option>Respite: a break for a family caregiver</option>
+              <option>Recovery after a hospital stay or surgery</option>
+              <option>Trial stay before a longer decision</option>
+              <option>A gap in home care</option>
+              <option>Not sure yet &mdash; please advise</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="bk-suite">Apartment preference</label>
+            <select id="bk-suite" name="suite_preference">
+              <option>No preference</option>
+              <option>Studio</option>
+              <option>One-bedroom</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="bk-name">Your name *</label>
+            <input type="text" id="bk-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form-row">
+            <label for="bk-phone">Phone *</label>
+            <input type="tel" id="bk-phone" name="phone" required autocomplete="tel">
+          </div>
+          <div class="form-row">
+            <label for="bk-email">Email</label>
+            <input type="email" id="bk-email" name="email" autocomplete="email">
+          </div>
+          <div class="form-row">
+            <label for="bk-notes">Anything we should know about your loved one&rsquo;s needs?</label>
+            <textarea id="bk-notes" name="notes" rows="3" placeholder="Mobility, medications, a recent hospital stay&hellip;"></textarea>
+          </div>
+          <div class="rules-box">
+            <h4>Booking rules &mdash; please read before you request</h4>
+            <ul>
+              <li><strong>Length of stay</strong> &mdash; typically a few days to several weeks, depending on availability and care needs. Longer stays can be arranged.</li>
+              <li><strong>Request to book</strong> &mdash; this sends a request, not a confirmed reservation. We confirm availability, usually within one business day.</li>
+              <li><strong>Rate quoted before check-in</strong> &mdash; respite is private pay, billed by the day for the apartment, meals, personal care and medication administration. We quote the rate for your dates when we confirm.</li>
+              <li><strong>Brief nursing assessment</strong> &mdash; required before arrival for every guest.</li>
+              <li><strong>No payment on this website</strong> &mdash; any arrangements are made directly with our team when we confirm your stay.</li>
+              <li><strong>Plans change?</strong> Call (423) 870-0050 and we will rework your dates.</li>
+            </ul>
+            <label class="consent"><input type="checkbox" name="agreed_to_booking_rules" value="yes" required> <span>I have read and agree to the booking rules. *</span></label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-arrow" id="bk-submit" disabled>Request These Dates</button>
+          <p class="form-note">This is a booking request, not a confirmed reservation. We confirm availability, the rate for your dates and a brief nursing assessment before check-in. No payment is collected online. By sending it you agree to be contacted by phone and email about your request, and to our <a href="/terms-of-service/">Terms of Service</a> and <a href="/privacy-policy/">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -213,7 +298,7 @@
     <div class="faq">
       <details class="faq-item">
         <summary>How short can a respite stay be?</summary>
-        <div class="faq-a"><p>Stays are typically a few days to several weeks, depending on availability and your parent&rsquo;s care needs. Call (423) 870-0050 with your dates and we will tell you what can be arranged.</p></div>
+        <div class="faq-a"><p>Stays are typically a few days to several weeks, depending on availability and your parent&rsquo;s care needs. <a href="#book">Request your dates above</a> or call (423) 870-0050 and we will tell you what can be arranged.</p></div>
       </details>
       <details class="faq-item">
         <summary>How is a respite stay priced?</summary>
@@ -316,7 +401,7 @@
     <p>&copy; 2026 Regency House Assisted Living &middot; 2062 Hamill Road, Hixson, TN 37343 &middot; <a href="/privacy-policy/">Privacy</a> &middot; <a href="/terms-of-service/">Terms</a> &middot; <a href="/ada-compliance/">Accessibility</a> &middot; <a href="/nondiscrimination/">Nondiscrimination</a></p>
   </div>
 </footer>
-<script src="/assets/js/main.js?v=74157c38" defer></script>
-<script src="/assets/js/chat.js?v=74157c38" defer></script>
+<script src="/assets/js/main.js?v=4934e7a8" defer></script>
+<script src="/assets/js/chat.js?v=4934e7a8" defer></script>
 </body>
 </html>

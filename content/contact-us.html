@@ -19,6 +19,8 @@ nav: contact
         <h2>Contact Regency House</h2>
         <p>Whether you are gathering information for the future or need an apartment within the week, our team will give you clear answers about care, availability, and cost.</p>
         <p>When you call, you reach our community in Hixson directly. We are not a call center or a referral service, and your information is never passed to other facilities.</p>
+        <p class="approval-note"><strong>Job seekers, vendors and calls for current residents:</strong> please call the main line, <a href="tel:4238700050">(423) 870-0050</a>.</p>
+        <noscript><p class="form-note">This form needs JavaScript. Please call us at <a href="tel:4238700050">(423) 870-0050</a>.</p></noscript>
 
         <!--
           LEAD DELIVERY — FormSubmit, same arrangement as kirbygateliving.com.
@@ -49,12 +51,24 @@ nav: contact
             <input type="email" id="email" name="email" autocomplete="email">
           </div>
           <div class="form-row">
+            <label for="who">I am *</label>
+            <select id="who" name="inquiry_from" required data-screen-who>
+              <option value="">Choose one</option>
+              <option>Looking for care for a family member</option>
+              <option>Looking for care for myself</option>
+              <option>A hospital, doctor or care professional</option>
+              <option value="job">Looking for a job</option>
+              <option value="vendor">A vendor or business</option>
+            </select>
+          </div>
+          <div class="form-row">
             <label for="interest">I&rsquo;m interested in</label>
             <select id="interest" name="interest">
               <option>Assisted Living</option>
               <option>Respite or Short-Term Stay</option>
               <option>Scheduling a Tour</option>
               <option>Rates &amp; Availability</option>
+              <option>Reserving an Apartment</option>
               <option>Not sure yet &mdash; I would like some guidance</option>
             </select>
           </div>
