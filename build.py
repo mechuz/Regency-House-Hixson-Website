@@ -186,6 +186,58 @@ def check_unique_images():
 
 
 # ---------------------------------------------------------------------------
+# Activities calendar: {{calendar}} on /activities-calendar/ from content/calendar.json
+#   {"month": "November", "year": 2026, "note": "...",
+#    "special": {"26": "Thanksgiving"},
+#    "days": {"1": ["10:00 Devotional", "2:00 Bingo"], ...}}
+# An empty "days" object renders the front-desk notice instead of the grid.
+# ---------------------------------------------------------------------------
+def render_calendar():
+    import calendar as _cal
+    f = CONTENT / "calendar.json"
+    if not f.exists():
+        return ""
+    d = json.loads(f.read_text())
+    month_num = list(_cal.month_name).index(d["month"])
+    days = d.get("days") or {}
+    out = [f'<div class="center"><p class="eyebrow">Updated Monthly</p>'
+           f'<h2>{_html.escape(d["month"])} {int(d["year"])} at Regency House</h2></div>']
+    note = d.get("note")
+    if not days:
+        out.append('<div class="cal-empty"><h3>This month&rsquo;s calendar is at the front desk</h3>'
+                   '<p>Our activity team posts the printed calendar in the community and keeps a copy at the front desk. '
+                   f'Call <a href="tel:{PHONE_TEL}" data-track="phone">{PHONE_FMT}</a> and we will tell you what is on this week, '
+                   'or plan your visit around an activity.</p>'
+                   f'<a href="tel:{PHONE_TEL}" class="btn btn-primary" data-track="phone">Call {PHONE_FMT}</a></div>')
+        if note:
+            out.append(f'<p class="form-note center" style="margin-top:1.5rem">{note}</p>')
+        return "\n".join(out)
+    first_wd = _cal.weekday(d["year"], month_num, 1)      # Mon=0..Sun=6
+    lead = (first_wd + 1) % 7                              # Sun-first grid
+    ndays = _cal.monthrange(d["year"], month_num)[1]
+    out.append('<div class="cal-wrap"><div class="cal-grid">')
+    for w in ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]:
+        out.append(f'<div class="cal-wd">{w}</div>')
+    for _ in range(lead):
+        out.append('<div class="cal-cell cal-blank"></div>')
+    for day in range(1, ndays + 1):
+        key = str(day)
+        special = d.get("special", {}).get(key)
+        badge = f'<span class="cal-badge">{_html.escape(special)}</span>' if special else ""
+        evs = "".join(
+            f'<li><strong>{_html.escape(e.split(" ", 1)[0])}</strong> {_html.escape(e.split(" ", 1)[1])}</li>'
+            if " " in e and e.split(" ", 1)[0][0].isdigit() else f"<li>{_html.escape(e)}</li>"
+            for e in days.get(key, []))
+        wd_name = _cal.day_name[_cal.weekday(d["year"], month_num, day)]
+        out.append(f'<div class="cal-cell"><div class="cal-day"><span class="cal-num">{day}</span>'
+                   f'<span class="cal-wd-sm">{wd_name[:3]}</span>{badge}</div><ul>{evs}</ul></div>')
+    out.append("</div></div>")
+    if note:
+        out.append(f'<p class="form-note center" style="margin-top:1.5rem">{note}</p>')
+    return "\n".join(out)
+
+
+# ---------------------------------------------------------------------------
 # Shared rendering
 # ---------------------------------------------------------------------------
 def _ld(data):
@@ -824,6 +876,8 @@ def build():
         body = PHOTO_RE.sub(photo, body)
         if "{{news_headlines}}" in body:
             body = body.replace("{{news_headlines}}", render_home_headlines(load_feed_headlines()[0]))
+        if "{{calendar}}" in body:
+            body = body.replace("{{calendar}}", render_calendar())
         # Per-page head extras stored in a sibling file, plus the FAQ schema derived from the markup
         extra_file = CONTENT / (f.stem + ".head.html")
         head_extra = (extra_file.read_text() + "\n" if extra_file.exists() else "") + faq_schema(body)
