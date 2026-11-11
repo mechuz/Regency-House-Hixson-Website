@@ -1,0 +1,50 @@
+<!--meta
+title: Book Your Visit | Regency House, Hixson TN
+description: Pick a day and time to visit Regency House Assisted Living on Hamill Road in Hixson, TN.
+path: /visit/
+body_attr: data-page="visit"
+sitemap: no
+robots: noindex, follow
+-->
+<section class="section">
+  <div class="container narrow" style="padding:2.5rem 1.25rem;max-width:640px">
+    <p class="eyebrow center">Personal Tour</p>
+    <h1 class="center" id="kv-title">Book Your Visit</h1>
+    <p class="center" style="margin-top:0.5rem">Meet our team and see the apartments, the dining room and the courtyard. Pick a day and a time, then tap <strong>Book my visit</strong>.</p>
+
+    <noscript><p class="form-note center">This page needs JavaScript. Please call us at <a href="tel:4238700050">(423) 870-0050</a> to book a visit.</p></noscript>
+    <form id="kv-form" class="card" style="margin-top:1.5rem" action="/thank-you/" method="POST" data-lead-form novalidate>
+      <div style="padding:1.25rem 1.25rem 1.5rem">
+        <input type="hidden" name="_cc" value="info@hixsonregencyhouse.com">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="Book a visit">
+        <input type="hidden" name="_next" value="https://www.hixsonregencyhouse.com/thank-you/">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" id="kv-hp" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true" aria-label="Leave this field empty">
+        <input type="hidden" name="visit_day" id="kv-day">
+        <input type="hidden" name="visit_time" id="kv-time">
+        <input type="hidden" name="lead_id" id="kv-lead">
+
+        <h2 style="font-size:1.15rem;margin:0 0 0.6rem">1. Pick a day</h2>
+        <div id="kv-days" role="radiogroup" aria-label="Day" style="display:flex;flex-wrap:wrap;gap:0.5rem"></div>
+
+        <h2 style="font-size:1.15rem;margin:1.25rem 0 0.6rem">2. Pick a time</h2>
+        <div id="kv-times" role="radiogroup" aria-label="Time" style="display:flex;flex-wrap:wrap;gap:0.5rem"></div>
+
+        <div id="kv-contact" style="margin-top:1.25rem">
+          <h2 style="font-size:1.15rem;margin:0 0 0.6rem">3. Your name and phone</h2>
+          <div class="form-row"><label for="kv-name">Your name</label><input type="text" id="kv-name" name="name" autocomplete="name"></div>
+          <div class="form-row"><label for="kv-phone">Phone</label><input type="tel" id="kv-phone" name="phone" autocomplete="tel"></div>
+        </div>
+
+        <button type="submit" id="kv-submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:1.5rem">Book my visit</button>
+        <p id="kv-msg" role="alert" aria-live="polite" style="margin:0.75rem 0 0;min-height:1.4em"></p>
+        <p style="font-size:0.9rem;margin:0.5rem 0 0">Our team calls to confirm the time. Prefer to talk? Call <a href="tel:4238700050" data-track="phone">(423) 870-0050</a>.</p>
+      </div>
+    </form>
+
+    <p class="center" style="margin-top:1.5rem">2062 Hamill Road, Hixson, TN 37343 &middot; <a href="https://www.google.com/maps/dir/?api=1&amp;destination=2062+Hamill+Road+Hixson+TN+37343" target="_blank" rel="noopener">Directions</a></p>
+    <p class="center" style="margin-top:0.5rem"><a href="/rates-floor-plans/">Residences &amp; rates</a> &middot; <a href="/respite-care/">Respite stays</a> &middot; <a href="/paying-for-senior-living/">Paying for senior living</a> &middot; <a href="/blog/">Guides &amp; resources</a></p>
+  </div>
+</section>
+<script src="/assets/js/visit.js?v={{js_v}}" defer></script>
