@@ -707,6 +707,29 @@ NEWS_INLINE_CTA = ('<aside class="news-cta"><p class="news-cta-title">Looking at
                    '<p class="cta-actions"><a href="/contact-us/" class="btn btn-primary" data-track="news-tour">Schedule a Tour</a> '
                    '<a href="/rates-floor-plans/" class="btn btn-secondary" data-track="news-residences">Explore Residences</a></p></aside>')
 NEWS_INLINE_AFTER = 3    # the inline tour card follows this many items on /news/
+# "Share an article": readers suggest a story for the page. Goes through the site's one
+# lead sender (main.js) to the lead hook with source "Share an article", article_url and
+# article_note; the hook routes it to the content calendar. The URL field is allowed to
+# contain a link (data-rh-allow-link), everything else is screened as usual.
+NEWS_SHARE_FORM = """<aside class="news-share" id="share" aria-labelledby="news-share-h">
+      <h2 id="news-share-h">Share an article</h2>
+      <p>Read something families in Hixson should see? Send us the link and our team will consider it for this page.</p>
+      <noscript><p class="form-note">This form needs JavaScript. Email the link to <a href="mailto:info@hixsonregencyhouse.com">info@hixsonregencyhouse.com</a>.</p></noscript>
+      <form class="contact-form" action="/thank-you/" data-lead-form method="POST">
+        <input type="hidden" name="_cc" value="info@hixsonregencyhouse.com">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_subject" value="Share an article">
+        <input type="hidden" name="_next" value="https://www.hixsonregencyhouse.com/thank-you/">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" aria-label="Leave this field empty">
+        <div class="form-row"><label for="share-url">Link to the article *</label><input type="url" id="share-url" name="article_url" required placeholder="https://" data-rh-allow-link inputmode="url"></div>
+        <div class="form-row"><label for="share-note">Why it matters (optional)</label><textarea id="share-note" name="article_note" rows="2" maxlength="500"></textarea></div>
+        <div class="form-row"><label for="share-name">Your name *</label><input type="text" id="share-name" name="name" required autocomplete="name"></div>
+        <div class="form-row"><label for="share-phone">Phone *</label><input type="tel" id="share-phone" name="phone" required autocomplete="tel"></div>
+        <button type="submit" class="btn btn-secondary">Send the link</button>
+        <p class="form-note">We read every suggestion; we cannot reply to each one. Your details are used only to follow up about the article and are never sold.</p>
+      </form>
+    </aside>"""
 
 
 def _news_list(items, inline_cta=False):
@@ -768,6 +791,7 @@ def render_news_index(items, archive_years):
     {render_feed_headlines(*load_feed_headlines())}
     {picks}
     {archive}
+    {NEWS_SHARE_FORM}
     {TOUR_CTA}
     <p class="post-subscribe">Get new items by RSS: <a href="/news/feed.xml">news/feed.xml</a></p>
     <p class="news-disclaimer">{NEWS_DISCLAIMER}</p>
