@@ -1,2 +1,6 @@
 __pycache__/
 .DS_Store
+
+# Team Login private inputs (readable staff page + passwords) never go in this public repo
+team-private/
+users*.json
