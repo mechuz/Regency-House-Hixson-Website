@@ -9,7 +9,7 @@
   <title>Senior Care News | Regency House, Hixson TN</title>
   <meta name="description" content="Senior housing and senior care news for families: assisted living trends, paying for care, health research, caregiving, benefits and the Chattanooga area, summarized by Regency House Assisted Living in Hixson, Tennessee.">
   <link rel="canonical" href="https://www.hixsonregencyhouse.com/news/">
-  <link rel="alternate" type="application/rss+xml" title="Regency House: Family Resources" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Regency House: Guides &amp; Resources" href="/feed.xml">
   <link rel="alternate" type="application/rss+xml" title="Regency House: Senior Care News" href="/news/feed.xml">
   <meta property="og:title" content="Senior Care News | Regency House, Hixson TN">
   <meta property="og:description" content="Senior housing and senior care news for families: assisted living trends, paying for care, health research, caregiving, benefits and the Chattanooga area, summarized by Regency House Assisted Living in Hixson, Tennessee.">
@@ -26,8 +26,11 @@
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&amp;family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/main.css?v=a28816c0">
+  <link rel="stylesheet" href="/assets/css/main.css?v=fe473ed4">
+  <!--analytics-->
   <!-- Google tag: Ads conversion tracking + GA4. IDs stamped in by setup-ids.sh -->
+  <!-- Thank-you page: count one form lead per browser session (window.rhLead); a reload or revisit goes home instead of re-firing the conversion -->
+  <script>if(location.pathname==="/thank-you/"){try{if(sessionStorage.getItem("rh_ty")){location.replace("/");}else{sessionStorage.setItem("rh_ty","1");window.rhLead=1;}}catch(e){window.rhLead=1;}}</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW_CONVERSION_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -36,6 +39,7 @@
     gtag('config', 'AW_CONVERSION_ID');
     gtag('config', 'GA4_MEASUREMENT_ID');
   </script>
+  <!--/analytics-->
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Senior Care News | Regency House, Hixson TN", "url": "https://www.hixsonregencyhouse.com/news/", "description": "Senior housing and senior care news for families: assisted living trends, paying for care, health research, caregiving, benefits and the Chattanooga area, summarized by Regency House Assisted Living in Hixson, Tennessee.", "publisher": {"@type": "Organization", "name": "Regency House Assisted Living", "url": "https://www.hixsonregencyhouse.com", "logo": {"@type": "ImageObject", "url": "https://www.hixsonregencyhouse.com/assets/img/logo.svg"}}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Senior Care News", "itemListOrder": "https://schema.org/ItemListOrderDescending", "numberOfItems": 0, "itemListElement": []}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.hixsonregencyhouse.com/"}, {"@type": "ListItem", "position": 2, "name": "Senior Care News", "item": "https://www.hixsonregencyhouse.com/news/"}]}</script>
@@ -54,26 +58,36 @@
       </button>
       <ul id="nav-menu">
         <li><a href="/" >Home</a></li>
+        <li><a href="/assisted-living/" >Assisted Living</a></li>
+        <li><a href="/respite-care/" >Respite Care</a></li>
+        <li><a href="/rates-floor-plans/" >Residences &amp; Rates</a></li>
         <li class="has-sub">
-          <button type="button" aria-expanded="false">Care <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <button type="button" aria-expanded="false">About <span class="caret" aria-hidden="true">&#9662;</span></button>
           <ul class="sub">
-            <li><a href="/assisted-living/" >Assisted Living</a></li>
-            <li><a href="/respite-care/" >Respite &amp; Short-Term Care</a></li>
-          </ul>
-        </li>
-        <li class="has-sub">
-          <button type="button" aria-expanded="false">Community <span class="caret" aria-hidden="true">&#9662;</span></button>
-          <ul class="sub">
+            <li><a href="/about-us/" >About Us</a></li>
             <li><a href="/amenities/" >Amenities &amp; Services</a></li>
             <li><a href="/gallery/" >Photo Gallery</a></li>
             <li><a href="/reviews/" >Reviews</a></li>
-            <li><a href="/blog/" >Family Resources</a></li>
+            <li><a href="/activities-calendar/" >Activities Calendar</a></li>
+            <li><a href="/reserve/" >Reserve a Suite</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <button type="button" aria-expanded="false">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="sub">
+            <li><a href="/paying-for-senior-living/" >Paying for Senior Living</a></li>
+            <li><a href="/blog/" >Guides &amp; Resources</a></li>
             <li><a href="/news/" aria-current="page">Senior Care News</a></li>
           </ul>
         </li>
-        <li><a href="/rates-floor-plans/" >Residences &amp; Rates</a></li>
-        <li><a href="/about-us/" >About</a></li>
         <li><a href="/contact-us/" >Contact</a></li>
+        <li class="has-sub nav-team">
+          <button type="button" aria-expanded="false">Team Login <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="sub">
+            <li><a href="/team/" rel="nofollow" >Team Portal</a></li>
+            
+          </ul>
+        </li>
       </ul>
     </nav>
     <div class="header-cta">
@@ -94,7 +108,7 @@
 </section>
 <section class="section">
   <div class="container narrow news">
-    
+    <section class="headlines" aria-labelledby="headlines-h"><h2 id="headlines-h">Headlines from across senior care <span class="headlines-updated">Updated November 11, 2026</span></h2><p class="headlines-intro">The latest stories from 7 senior living, aging and benefits publishers. Each headline opens the original article.</p><ol class="headline-list"><li><a href="https://www.sciencedaily.com/releases/2026/11/261109205401.htm" target="_blank" rel="noopener">Obesity linked to up to 27% lower risk of death in dementia</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-11">November 11, 2026</time></span></li><li><a href="https://seniorhousingnews.com/2026/11/10/new-congress-brings-senior-living-ownership-staffing-scrutiny-more-opportunities-to-address-affordability/" target="_blank" rel="noopener">New Congress Brings Senior Living Ownership, Staffing Scrutiny, More Opportunities to Address Affordability</a><span class="headline-meta">Senior Housing News &middot; <time datetime="2026-11-10">November 10, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261108203714.htm" target="_blank" rel="noopener">Eating less protein could slow aging, review of 350 studies finds</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-10">November 10, 2026</time></span></li><li><a href="https://kffhealthnews.org/aging/new-old-age-guns-firearms-safety-dementia-weapons-suicide/" target="_blank" rel="noopener">When a Gun Owner Shows Early Signs of Dementia</a><span class="headline-meta">KFF Health News &middot; <time datetime="2026-11-10">November 10, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261108233103.htm" target="_blank" rel="noopener">Alzheimer’s may have early warning signs outside the brain</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-10">November 10, 2026</time></span></li><li><a href="https://www.npr.org/2026/11/09/nx-s1-6030983/how-medicaid-affected-one-california-house-race" target="_blank" rel="noopener">How Medicaid affected one California House race</a><span class="headline-meta">NPR Health &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://seniorhousingnews.com/2026/11/09/rising-pricing-shows-more-competition-for-senior-living-communities-as-development-remains-slow/" target="_blank" rel="noopener">Rising Pricing Shows More Competition for Senior Living Communities as Development Remains Slow</a><span class="headline-meta">Senior Housing News &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/this-veterans-day-one-veterans-dream-honors-a-friend-he-never-forgot/" target="_blank" rel="noopener">This Veterans Day, One Veteran’s Dream Honors a Friend He Never Forgot</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/dol-independent-contractor-rule-nears-release/" target="_blank" rel="noopener">DOL Independent Contractor Rule Nears Release</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/new-congressional-oversight-plans-signal-greater-scrutiny-for-senior-living/" target="_blank" rel="noopener">New Congressional Oversight Plans Signal Greater Scrutiny for Senior Living</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/make-connection-a-priority-this-holiday-season/" target="_blank" rel="noopener">Make Connection a Priority This Holiday Season</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/last-chance-to-join-senior-living-leaders-in-austin/" target="_blank" rel="noopener">Last Chance to Join Senior Living Leaders in Austin</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/i-love-senior-living-honoring-service-sharing-gratitude/" target="_blank" rel="noopener">I Love Senior Living: Honoring Service, Sharing Gratitude</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.argentum.org/assessing-the-state-of-technology-adoption-in-senior-living/" target="_blank" rel="noopener">Assessing the State of Technology Adoption in Senior Living</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.npr.org/2026/11/09/nx-s1-6032732/trump-medicaid-health-nebraska-work-insurance" target="_blank" rel="noopener">He was diagnosed with cancer. Then he was told he lost his Medicaid</a><span class="headline-meta">NPR Health &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261108233037.htm" target="_blank" rel="noopener">Common osteoporosis drugs linked to 24% lower dementia risk in major study</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-09">November 9, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261105224609.htm" target="_blank" rel="noopener">Stronger flu shot linked to nearly 55% lower Alzheimer&#x27;s risk</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-08">November 8, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261105224550.htm" target="_blank" rel="noopener">Drinking 2–3 cups of coffee a day linked to dramatically lower dementia risk</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-07">November 7, 2026</time></span></li><li><a href="https://kffhealthnews.org/on-air/on-air-november-7-2026-midterm-election-healthcare-costs-reform-media-appearances/" target="_blank" rel="noopener">Our Reporters Discuss Healthcare Costs — And What Changes the Midterms May Portend</a><span class="headline-meta">KFF Health News &middot; <time datetime="2026-11-07">November 7, 2026</time></span></li><li><a href="https://www.nicmap.com/blog/senior-care-industry-attracting-new-investors/" target="_blank" rel="noopener">Why the Senior Care Industry Is Attracting New Investors: NIC MAP’s Data From CREDA 2026</a><span class="headline-meta">NIC MAP &middot; <time datetime="2026-11-06">November 6, 2026</time></span></li><li><a href="https://seniorhousingnews.com/2026/11/06/capital-and-scale-not-ideas-are-biggest-barriers-to-middle-market-senior-living/" target="_blank" rel="noopener">Capital and Scale, Not Ideas, Are Biggest Barriers to Middle-Market Senior Living</a><span class="headline-meta">Senior Housing News &middot; <time datetime="2026-11-06">November 6, 2026</time></span></li><li><a href="https://www.argentum.org/ridge-crest-at-meadow-ridge-receives-prestigious-designation-from-the-centers-for-medicare-medicaid-services/" target="_blank" rel="noopener">Ridge Crest at Meadow Ridge Receives Prestigious Designation from the Centers for Medicare &amp; Medicaid Services</a><span class="headline-meta">Argentum &middot; <time datetime="2026-11-06">November 6, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261104084017.htm" target="_blank" rel="noopener">An anti-aging drug may help protect the brain before Alzheimer&#x27;s symptoms begin</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-06">November 6, 2026</time></span></li><li><a href="https://seniorhousingnews.com/2026/11/05/national-healthcare-properties-continues-to-trade-medical-facilities-for-senior-housing/" target="_blank" rel="noopener">National Healthcare Properties Continues to Trade Medical Facilities for Senior Housing</a><span class="headline-meta">Senior Housing News &middot; <time datetime="2026-11-05">November 5, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261102075806.htm" target="_blank" rel="noopener">Scientists discover new Alzheimer’s drug that repairs DNA damage and reduces brain inflammation</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-03">November 3, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/10/261031221155.htm" target="_blank" rel="noopener">Scientists reverse liver cell aging and cut Alzheimer’s-linked protein in half</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-03">November 3, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/11/261101010559.htm" target="_blank" rel="noopener">Extra weight may be aging your brain faster than you think</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-11-02">November 2, 2026</time></span></li><li><a href="https://alzheimersnewstoday.com/news/landmarks-worldwide-light-up-teal-today-alzheimers-awareness-month/" target="_blank" rel="noopener">Landmarks worldwide to light up teal today for Alzheimer’s awareness</a><span class="headline-meta">Alzheimer&#x27;s News Today &middot; <time datetime="2026-11-02">November 2, 2026</time></span></li><li><a href="https://www.sciencedaily.com/releases/2026/10/261029072142.htm" target="_blank" rel="noopener">A simple blood test could reveal Alzheimer’s risk 10 years before symptoms</a><span class="headline-meta">ScienceDaily &middot; <time datetime="2026-10-31">October 31, 2026</time></span></li><li><a href="https://kffhealthnews.org/medicare/medicare-drug-plans-premium-hikes-affordability-trump-cms/" target="_blank" rel="noopener">Medicare Drug Plans Are Hiking Premiums While Trump Claims Victory on Medicine Prices</a><span class="headline-meta">KFF Health News &middot; <time datetime="2026-10-30">October 30, 2026</time></span></li></ol></section>
     <div class="post-empty"><h2>Our first picks are on the way</h2><p>Our team is gathering senior care news worth a family’s time. Check back soon, or call <a href="tel:4238700050" data-track="phone">(423) 870-0050</a> with any question about assisted living in Hixson.</p></div>
     
     <div class="post-cta">
@@ -131,8 +145,10 @@
     <p>Tours are available daily by appointment. When you call, you speak directly with our team in Hixson.</p>
     <div class="cta-actions">
       <a href="/contact-us/" class="btn btn-light">Schedule a Tour</a>
+      <a href="/reserve/" class="btn btn-outline-light">Reserve a Suite</a>
       <a href="tel:4238700050" class="btn btn-outline-light" data-track="phone">Call (423) 870-0050</a>
     </div>
+    <p class="cta-note">Before anyone moves in or begins a respite stay, our nursing team completes a brief health assessment, and services are provided under a resident agreement.</p>
   </div>
 </section>
 
@@ -154,22 +170,26 @@
       <h3>Explore</h3>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/about-us/">About</a></li>
         <li><a href="/assisted-living/">Assisted Living</a></li>
-        <li><a href="/respite-care/">Respite &amp; Short-Term Care</a></li>
-        <li><a href="/amenities/">Amenities</a></li>
-        <li><a href="/gallery/">Photo Gallery</a></li>
+        <li><a href="/respite-care/">Respite Care</a></li>
         <li><a href="/rates-floor-plans/">Residences &amp; Rates</a></li>
+        <li><a href="/contact-us/">Contact &amp; Tours</a></li>
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/amenities/">Amenities &amp; Services</a></li>
+        <li><a href="/gallery/">Photo Gallery</a></li>
         <li><a href="/reviews/">Reviews</a></li>
-        <li><a href="/blog/">Family Resources</a></li>
+        <li><a href="/activities-calendar/">Activities Calendar</a></li>
+        <li><a href="/reserve/">Reserve a Suite</a></li>
+        <li><a href="/paying-for-senior-living/">Paying for Senior Living</a></li>
+        <li><a href="/blog/">Guides &amp; Resources</a></li>
         <li><a href="/news/">Senior Care News</a></li>
-        <li><a href="/contact-us/">Contact</a></li>
+        <li><a href="/team/" rel="nofollow">Team Login</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h3>Connect</h3>
       <ul class="social-list">
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Regency+House+Assisted+Living+2062+Hamill+Road+Hixson+TN+37343" target="_blank" rel="noopener">Google</a></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Regency+House+Assisted+Living+2062+Hamill+Road+Hixson+TN+37343" target="_blank" rel="noopener" data-track="review" data-platform="google">Google</a></li>
         <li><a href="https://www.facebook.com/regencyhouse2062/" target="_blank" rel="noopener">Facebook</a></li>
       </ul>
       <h3>Legal</h3>
@@ -199,5 +219,6 @@
   </div>
 </footer>
 <script src="/assets/js/main.js?v=74157c38" defer></script>
+<script src="/assets/js/chat.js?v=74157c38" defer></script>
 </body>
 </html>

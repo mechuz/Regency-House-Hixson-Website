@@ -9,7 +9,7 @@
   <title>Page Not Found | Regency House</title>
   <meta name="description" content="That page could not be found. Call Regency House in Hixson, TN at (423) 870-0050.">
   <link rel="canonical" href="https://www.hixsonregencyhouse.com/404.html">
-  <link rel="alternate" type="application/rss+xml" title="Regency House: Family Resources" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Regency House: Guides &amp; Resources" href="/feed.xml">
   <link rel="alternate" type="application/rss+xml" title="Regency House: Senior Care News" href="/news/feed.xml">
   <meta property="og:title" content="Page Not Found | Regency House">
   <meta property="og:description" content="That page could not be found. Call Regency House in Hixson, TN at (423) 870-0050.">
@@ -26,8 +26,11 @@
   <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&amp;family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/main.css?v=a28816c0">
+  <link rel="stylesheet" href="/assets/css/main.css?v=fe473ed4">
+  <!--analytics-->
   <!-- Google tag: Ads conversion tracking + GA4. IDs stamped in by setup-ids.sh -->
+  <!-- Thank-you page: count one form lead per browser session (window.rhLead); a reload or revisit goes home instead of re-firing the conversion -->
+  <script>if(location.pathname==="/thank-you/"){try{if(sessionStorage.getItem("rh_ty")){location.replace("/");}else{sessionStorage.setItem("rh_ty","1");window.rhLead=1;}}catch(e){window.rhLead=1;}}</script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW_CONVERSION_ID"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -36,6 +39,7 @@
     gtag('config', 'AW_CONVERSION_ID');
     gtag('config', 'GA4_MEASUREMENT_ID');
   </script>
+  <!--/analytics-->
   
 </head>
 <body>
@@ -51,26 +55,36 @@
       </button>
       <ul id="nav-menu">
         <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/assisted-living/" >Assisted Living</a></li>
+        <li><a href="/respite-care/" >Respite Care</a></li>
+        <li><a href="/rates-floor-plans/" >Residences &amp; Rates</a></li>
         <li class="has-sub">
-          <button type="button" aria-expanded="false">Care <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <button type="button" aria-expanded="false">About <span class="caret" aria-hidden="true">&#9662;</span></button>
           <ul class="sub">
-            <li><a href="/assisted-living/" >Assisted Living</a></li>
-            <li><a href="/respite-care/" >Respite &amp; Short-Term Care</a></li>
-          </ul>
-        </li>
-        <li class="has-sub">
-          <button type="button" aria-expanded="false">Community <span class="caret" aria-hidden="true">&#9662;</span></button>
-          <ul class="sub">
+            <li><a href="/about-us/" >About Us</a></li>
             <li><a href="/amenities/" >Amenities &amp; Services</a></li>
             <li><a href="/gallery/" >Photo Gallery</a></li>
             <li><a href="/reviews/" >Reviews</a></li>
-            <li><a href="/blog/" >Family Resources</a></li>
+            <li><a href="/activities-calendar/" >Activities Calendar</a></li>
+            <li><a href="/reserve/" >Reserve a Suite</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <button type="button" aria-expanded="false">Resources <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="sub">
+            <li><a href="/paying-for-senior-living/" >Paying for Senior Living</a></li>
+            <li><a href="/blog/" >Guides &amp; Resources</a></li>
             <li><a href="/news/" >Senior Care News</a></li>
           </ul>
         </li>
-        <li><a href="/rates-floor-plans/" >Residences &amp; Rates</a></li>
-        <li><a href="/about-us/" >About</a></li>
         <li><a href="/contact-us/" >Contact</a></li>
+        <li class="has-sub nav-team">
+          <button type="button" aria-expanded="false">Team Login <span class="caret" aria-hidden="true">&#9662;</span></button>
+          <ul class="sub">
+            <li><a href="/team/" rel="nofollow" >Team Portal</a></li>
+            
+          </ul>
+        </li>
       </ul>
     </nav>
     <div class="header-cta">
@@ -105,8 +119,10 @@
     <p>Tours are available daily by appointment. When you call, you speak directly with our team in Hixson.</p>
     <div class="cta-actions">
       <a href="/contact-us/" class="btn btn-light">Schedule a Tour</a>
+      <a href="/reserve/" class="btn btn-outline-light">Reserve a Suite</a>
       <a href="tel:4238700050" class="btn btn-outline-light" data-track="phone">Call (423) 870-0050</a>
     </div>
+    <p class="cta-note">Before anyone moves in or begins a respite stay, our nursing team completes a brief health assessment, and services are provided under a resident agreement.</p>
   </div>
 </section>
 
@@ -128,22 +144,26 @@
       <h3>Explore</h3>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/about-us/">About</a></li>
         <li><a href="/assisted-living/">Assisted Living</a></li>
-        <li><a href="/respite-care/">Respite &amp; Short-Term Care</a></li>
-        <li><a href="/amenities/">Amenities</a></li>
-        <li><a href="/gallery/">Photo Gallery</a></li>
+        <li><a href="/respite-care/">Respite Care</a></li>
         <li><a href="/rates-floor-plans/">Residences &amp; Rates</a></li>
+        <li><a href="/contact-us/">Contact &amp; Tours</a></li>
+        <li><a href="/about-us/">About Us</a></li>
+        <li><a href="/amenities/">Amenities &amp; Services</a></li>
+        <li><a href="/gallery/">Photo Gallery</a></li>
         <li><a href="/reviews/">Reviews</a></li>
-        <li><a href="/blog/">Family Resources</a></li>
+        <li><a href="/activities-calendar/">Activities Calendar</a></li>
+        <li><a href="/reserve/">Reserve a Suite</a></li>
+        <li><a href="/paying-for-senior-living/">Paying for Senior Living</a></li>
+        <li><a href="/blog/">Guides &amp; Resources</a></li>
         <li><a href="/news/">Senior Care News</a></li>
-        <li><a href="/contact-us/">Contact</a></li>
+        <li><a href="/team/" rel="nofollow">Team Login</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h3>Connect</h3>
       <ul class="social-list">
-        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Regency+House+Assisted+Living+2062+Hamill+Road+Hixson+TN+37343" target="_blank" rel="noopener">Google</a></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Regency+House+Assisted+Living+2062+Hamill+Road+Hixson+TN+37343" target="_blank" rel="noopener" data-track="review" data-platform="google">Google</a></li>
         <li><a href="https://www.facebook.com/regencyhouse2062/" target="_blank" rel="noopener">Facebook</a></li>
       </ul>
       <h3>Legal</h3>
@@ -173,5 +193,6 @@
   </div>
 </footer>
 <script src="/assets/js/main.js?v=74157c38" defer></script>
+<script src="/assets/js/chat.js?v=74157c38" defer></script>
 </body>
 </html>

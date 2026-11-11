@@ -738,3 +738,139 @@ h3 { font-weight: 600; font-size: 1.15rem; }
 .home-news h2 { margin-bottom: 1.5rem; }
 .headline-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
 .headline-cards li { padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 140px; box-shadow: var(--shadow); }
+
+/* =====================================================================
+   Components shared with the sister site's engine (booking calendar,
+   reservation request, activities calendar, financing guide, visit page,
+   utility links). Colours come from the Heritage palette tokens above.
+   ===================================================================== */
+.btn-lg { padding: 1.1rem 2.4rem; font-size: 1.12rem; }
+.main-nav a.nav-portal, .main-nav .nav-team > button { color: var(--green); font-weight: 700; white-space: nowrap; }
+.cta-note { margin: 1.25rem auto 0 !important; max-width: 640px; font-size: 0.95rem; color: #d9e4dc; }
+.approval-note { max-width: 760px; margin: 1.25rem auto; padding: 0.9rem 1.1rem; background: var(--paper); border-left: 4px solid var(--gold); border-radius: 8px; font-size: 0.98rem; color: var(--ink); text-align: left; }
+.form-screen-note { margin: 0.5rem 0 1rem; padding: 0.7rem 0.9rem; background: #fff6e5; border-left: 4px solid #c98a1b; border-radius: 6px; font-size: 0.95rem; color: var(--ink); }
+.form-screen-note[hidden] { display: none; }
+.hero-plain { background-color: #f7f4ec; min-height: 260px; }
+
+/* Respite booking calendar (/respite-care/#book) */
+.booking-layout { display: grid; grid-template-columns: 1.25fr 1fr; gap: 3rem; align-items: start; margin-top: 2.5rem; }
+.book-cal { background: #fff; border-radius: 18px; box-shadow: var(--shadow); padding: 1.75rem; border-top: 3px solid var(--gold); }
+.bc-months { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+.bc-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.bc-title { font-weight: 700; color: var(--navy); font-size: 1.05rem; font-family: var(--font-ui); }
+.bc-nav { background: var(--paper); border: 1px solid var(--line-soft); color: var(--navy); width: 38px; height: 38px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; font-weight: 700; }
+.bc-nav:hover:not(:disabled) { background: var(--green); color: #fff; }
+.bc-nav:disabled { opacity: 0.35; cursor: default; }
+.bc-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.bc-wd { text-align: center; font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; padding: 0.3rem 0; }
+.bc-day {
+  aspect-ratio: 1; border: none; background: none; font-family: var(--font-body); font-size: 0.95rem;
+  color: var(--ink); border-radius: 50%; cursor: pointer; font-variant-numeric: tabular-nums;
+}
+.bc-day:hover:not(:disabled) { background: var(--ice); }
+.bc-day:disabled { color: #c3c9c3; cursor: default; text-decoration: line-through; }
+.bc-day.in-range { background: var(--ice); border-radius: 0; }
+.bc-day.sel { background: var(--green); color: #fff; font-weight: 700; }
+.bc-day.sel.start { border-radius: 50% 0 0 50%; }
+.bc-day.sel.end { border-radius: 0 50% 50% 0; }
+.bc-day.sel.only { border-radius: 50%; }
+.bc-summary { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line-soft); }
+.bc-summary div { flex: 1; min-width: 110px; }
+.bc-summary .lbl { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); }
+.bc-summary .val { font-weight: 700; color: var(--navy); font-size: 1.02rem; }
+.bc-hint { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.9rem; }
+.rules-box { background: var(--paper); border: 1px solid #e3dac4; border-radius: 14px; padding: 1.4rem 1.5rem; margin: 1.25rem 0; }
+.rules-box h4 { color: var(--navy); margin-bottom: 0.7rem; font-size: 1.02rem; }
+.rules-box ul { list-style: none; margin: 0 0 0.75rem; padding: 0; }
+.rules-box li { padding-left: 1.6rem; position: relative; margin-bottom: 0.55rem; font-size: 0.95rem; line-height: 1.55; }
+.rules-box li::before { content: "\2713"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+.rules-box .consent { margin: 0.75rem 0 0; }
+@media (max-width: 960px) { .booking-layout { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .bc-months { grid-template-columns: 1fr; } .bc-month:last-child { display: none; } }
+
+/* Activities calendar (/activities-calendar/) */
+.cal-wrap { overflow-x: auto; margin-top: 2rem; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(150px, 1fr)); gap: 6px; min-width: 1060px; }
+.cal-wd { background: var(--navy); color: #fff; font-weight: 700; text-align: center; padding: 0.5rem 0; border-radius: 8px; font-size: 0.9rem; font-family: var(--font-ui); }
+.cal-cell { background: #fff; border: 1px solid #e3dac4; border-radius: 10px; padding: 0.6rem; min-height: 150px; }
+.cal-blank { background: var(--paper); border-color: transparent; min-height: 0; }
+.cal-day { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.45rem; flex-wrap: wrap; }
+.cal-num { background: var(--green); color: #fff; font-weight: 700; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.cal-wd-sm { display: none; color: var(--navy); font-weight: 700; font-size: 0.85rem; }
+.cal-badge { background: var(--ice); color: var(--navy); font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; }
+.cal-cell ul { list-style: none; margin: 0; padding: 0; }
+.cal-cell li { font-size: 0.78rem; line-height: 1.35; padding: 0.22rem 0; border-top: 1px solid #f1ebdd; color: var(--ink); }
+.cal-cell li:first-child { border-top: none; }
+.cal-cell li strong { color: var(--green); font-variant-numeric: tabular-nums; }
+.cal-empty { max-width: 680px; margin: 2rem auto 0; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); border-top: 3px solid var(--gold); padding: clamp(1.5rem, 4vw, 2.5rem); text-align: center; }
+.cal-empty h3 { font-size: 1.35rem; margin-bottom: 0.6rem; }
+.cal-empty .btn { margin-top: 1rem; }
+@media (max-width: 760px) {
+  .cal-wrap { overflow-x: visible; }
+  .cal-grid { display: block; min-width: 0; }
+  .cal-wd, .cal-blank { display: none; }
+  .cal-cell { min-height: 0; margin-bottom: 0.75rem; }
+  .cal-wd-sm { display: inline; }
+  .cal-cell li { font-size: 0.92rem; }
+}
+
+/* Reserve a Suite request flow (/reserve/) */
+.wiz-steps { list-style: none; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0 1.75rem; padding: 0; }
+.wiz-steps li { font-weight: 700; font-size: 0.9rem; color: var(--text-muted); padding: 0.5rem 1.2rem; border-radius: 999px; background: var(--paper); font-family: var(--font-ui); }
+.wiz-steps li.on { background: var(--green); color: #fff; }
+.wiz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+.wiz-card {
+  font-family: var(--font-body); text-align: left; cursor: pointer;
+  background: #fff; border: 2px solid #e3dac4; border-top: 3px solid var(--gold); border-radius: 18px; padding: 1.8rem 1.6rem;
+  display: flex; flex-direction: column; gap: 0.45rem; box-shadow: var(--shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.wiz-card:hover, .wiz-card:focus-visible { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(27,58,92,0.18); border-color: var(--green); }
+.wiz-card[aria-pressed="true"] { border-color: var(--green); background: var(--paper); }
+.wiz-card-name { font-weight: 700; color: var(--navy); font-size: 1.3rem; letter-spacing: -0.01em; font-family: var(--font-ui); }
+.wiz-card-meta { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+.wiz-stay { align-items: flex-start; padding: 2.2rem 1.8rem; }
+.wiz-stay .wiz-card-name::after { content: " \2192"; color: var(--green); }
+.wiz-summary { max-width: 640px; margin: 0 auto; background: #fff; border-radius: 18px; box-shadow: var(--shadow); border-top: 3px solid var(--gold); padding: 2.25rem; }
+.wiz-summary h3 { font-size: 1.5rem; text-align: center; }
+.wiz-sum-line { font-size: 1.1rem; margin: 0.75rem 0 1.5rem; color: var(--ink); text-align: center; }
+.wiz-summary .contact-form { margin-top: 1rem; }
+.wiz-pane[hidden] { display: none; }
+
+/* Senior living financing guide (/paying-for-senior-living/) */
+.finance-toc { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; margin-top: 2rem; padding: 0; }
+.finance-toc a { display: block; background: #fff; border-radius: var(--radius); padding: 0.9rem 1.1rem; font-weight: 700; color: var(--navy); text-decoration: none; box-shadow: var(--shadow); border-top: 3px solid var(--gold); }
+.finance-toc a:hover { color: var(--green); }
+.finance-toc a::after { content: " \2192"; color: var(--green); }
+.finance-guide { display: grid; gap: 1.5rem; }
+.finance-option { background: #fff; border-radius: var(--radius); padding: clamp(1.5rem, 3vw, 2rem); box-shadow: var(--shadow); border-top: 4px solid var(--gold); scroll-margin-top: 7rem; }
+.finance-option h2 { font-size: clamp(1.5rem, 2.8vw, 1.9rem); }
+.finance-option ul { margin: 0.75rem 0 0 1.2rem; display: grid; gap: 0.6rem; }
+.finance-option p + ul, .finance-option ul + p, .finance-option p + p { margin-top: 0.9rem; }
+.finance-tag { color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; margin-bottom: 0.4rem; font-family: var(--font-ui); }
+.finance-here { margin-top: 1rem !important; padding: 0.85rem 1rem; border-radius: 8px; background: var(--paper); border-left: 4px solid var(--gold); }
+.finance-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 1rem; }
+.finance-table caption { text-align: left; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.finance-table th, .finance-table td { padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--line-soft); text-align: left; }
+.finance-table td { font-weight: 700; color: var(--navy); white-space: nowrap; }
+.finance-contacts { list-style: none; margin-left: 0 !important; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.finance-contacts li { padding: 0.9rem 1rem; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--paper); }
+.finance-contacts strong { display: block; color: var(--navy); }
+.finance-contacts span { font-size: 0.95rem; }
+.finance-disclaimer { font-size: 0.9rem; color: var(--text-muted); }
+.finance-feature { display: flex; gap: 2rem; align-items: center; justify-content: space-between; flex-wrap: wrap; background: #fff; border-radius: var(--radius); padding: clamp(1.5rem, 4vw, 2.5rem); box-shadow: var(--shadow); border-top: 4px solid var(--gold); margin-bottom: 2.5rem; }
+.finance-feature > div { flex: 1 1 420px; }
+.finance-feature h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+.finance-feature .btn { margin-top: 0; }
+.finance-pace { border-top-color: var(--green); }
+
+/* Book Your Visit (/visit/) */
+.kv-chip { background: #fff; color: var(--navy); border: 2px solid var(--green); border-radius: 999px; padding: 0.6rem 0.9rem; min-width: 7.2rem; font: inherit; font-weight: 600; cursor: pointer; }
+.kv-chip[aria-checked="true"] { background: var(--green); border-color: var(--green); color: #fff; box-shadow: 0 0 0 3px rgba(30,92,69,0.3); }
+.kv-chip[aria-checked="true"]::before { content: "\2713\00a0"; }
+.kv-chip:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+/* "Share an article" on /news/ */
+.news-share { margin-top: 3rem; background: var(--paper); border-radius: var(--radius); border-top: 3px solid var(--gold); padding: clamp(1.5rem, 4vw, 2.25rem); }
+.news-share h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
+.news-share .form-row { margin-top: 1rem; }

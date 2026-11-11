@@ -14,6 +14,8 @@ top of each content file:
     nav: about        (which nav item gets aria-current)
     body_attr:  data-page="thank-you"   (optional)
     sitemap: yes|no   (default yes)
+    robots: noindex, follow   (optional robots meta)
+    analytics: no   (optional: drop the Google tag and lock scripts to this site)
     -->
 
 The blog ("Family Resources", content/blog/) and the Senior Care News page
@@ -41,7 +43,35 @@ SITE_NAME = "Regency House Assisted Living"
 PHONE_FMT = "(423) 870-0050"
 PHONE_TEL = "4238700050"
 
-NAV_KEYS = ["home", "about", "al", "respite", "amenities", "gallery", "rates", "reviews", "contact", "blog", "news"]
+# Utility links in the header and footer. Ownership supplies the URLs; while a
+# constant is an empty string that link is not rendered anywhere on the site.
+RESIDENT_PORTAL_URL = ""   # e.g. the resident / family billing portal sign-in page
+STAFF_LOGIN_URL = ""       # the UKG Ready time clock sign-in page ("Staff Login (UKG Ready)")
+
+NAV_KEYS = ["home", "about", "al", "respite", "amenities", "gallery", "rates", "reviews", "contact",
+            "blog", "news", "cal", "reserve", "paying", "team"]
+
+
+def utility_tokens():
+    """Header/footer links that exist only when their URL constant is set, plus the
+    header button: "Reserve a Suite" while content/reserve.html exists, otherwise
+    "Schedule a Tour" (the Call button beside it is always there)."""
+    portal = _html.escape(RESIDENT_PORTAL_URL, quote=True)
+    staff = _html.escape(STAFF_LOGIN_URL, quote=True)
+    tok = {
+        "resident_portal_nav": (f'<li><a href="{portal}" target="_blank" rel="noopener" class="nav-portal" '
+                                'data-track="resident-portal">Resident Portal</a></li>\n        ') if portal else "",
+        "resident_portal_footer": (f'<li><a href="{portal}" target="_blank" rel="noopener">Resident Portal</a></li>\n        ') if portal else "",
+        "staff_login_nav": (f'<li><a href="{staff}" target="_blank" rel="noopener" data-track="staff_login">'
+                            'Time Clock (UKG Ready)</a></li>') if staff else "",
+        "staff_login_footer": (f'<li><a href="{staff}" target="_blank" rel="noopener" data-track="staff_login">'
+                               'Staff Login (UKG Ready)</a></li>\n        ') if staff else "",
+    }
+    if (CONTENT / "reserve.html").exists():
+        tok["header_primary"] = '<a href="/reserve/" class="btn btn-primary header-tour" data-track="reserve-header">Reserve a Suite</a>'
+    else:
+        tok["header_primary"] = '<a href="/contact-us/" class="btn btn-primary header-tour">Schedule a Tour</a>'
+    return tok
 
 ICONS = {
  "dining":   '<path d="M5 3v7a3 3 0 0 0 6 0V3"/><path d="M8 3v18"/><path d="M18 3c-2.2 0-3.5 2.8-3.5 6v4H18v8"/>',
@@ -168,7 +198,17 @@ def _ld(data):
 def render_html(meta, body, head_extra=""):
     """Wrap a body in templates/base.html. Placeholders inside the body
     ({{phone_fmt}}, {{phone_tel}}, {{icon:...}}, {{photo:...}}) are resolved too."""
-    html = TEMPLATE.replace("{{content}}", body)
+    html = TEMPLATE
+    if meta.get("analytics", "yes").strip() == "no":
+        # Staff/private pages: no Google tag, and only our own scripts may run.
+        html = re.sub(r"\s*<!--analytics-->.*?<!--/analytics-->", "", html, flags=re.S)
+        html = re.sub(r"script-src [^;]*;", "script-src 'self';", html, count=1)
+        html = re.sub(r"connect-src [^;]*;", "connect-src 'self';", html, count=1)
+        html = re.sub(r"frame-src [^;]*;", "frame-src 'none';", html, count=1)
+        html = re.sub(r"form-action [^;]*;", "form-action 'none';", html, count=1)
+    html = html.replace("{{content}}", body)
+    robots = (('<meta name="robots" content="%s">\n  ' % _html.escape(meta["robots"].strip(), quote=True))
+              if meta.get("robots") else "")
     repl = {
         "phone_tel": PHONE_TEL,
         "phone_fmt": PHONE_FMT,
@@ -178,9 +218,10 @@ def render_html(meta, body, head_extra=""):
         "year": str(datetime.date.today().year),
         "css_v": fhash(PUBLIC / "assets" / "css" / "main.css"),
         "js_v": fhash(PUBLIC / "assets" / "js" / "main.js"),
-        "head_extra": meta.get("head_extra", "") + head_extra,
+        "head_extra": robots + meta.get("head_extra", "") + head_extra,
         "body_attr": (" " + meta["body_attr"]) if meta.get("body_attr") else "",
     }
+    repl.update(utility_tokens())
     for key in NAV_KEYS:
         repl[f"active_{key}"] = 'aria-current="page"' if meta.get("nav") == key else ""
     for k, v in repl.items():
