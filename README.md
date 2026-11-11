@@ -9,13 +9,16 @@ two sites.
 ## How it works
 
 - `content/*.html` — one file per page (body only, with a `<!--meta -->` block)
-- `content/blog/*.html` — one file per Family Resources article (see *Blog* below)
+- `content/blog/*.html` — one file per Guides & Resources article (see *Blog* below)
 - `content/news/*.html` — one file per Senior Care News item (see *Senior Care News* below)
+- `content/calendar.json` — this month's activities for `/activities-calendar/` (see *Activities calendar* below)
 - `templates/base.html` — shared header, nav, CTA band, footer, Google tag
 - `build.py` — assembles `public/` from the above; also writes `sitemap.xml`,
   `robots.txt`, `CNAME`, the legacy redirect stubs, the FAQ structured data,
-  the blog and news pages and both RSS feeds
-- `scripts/` — the Airtable publisher and the headline collector (see *Automated publishing* below)
+  the activities calendar, the blog and news pages and both RSS feeds
+- `scripts/` — the Airtable publisher, the headline collector and the Team Login builder (see below)
+- `public/assets/js/` — `main.js` (nav, the one lead sender, respite calendar, reserve flow),
+  `chat.js` (Ask-us assistant), `visit.js` (Book Your Visit), `team-gate.js` (Team Login)
 - `public/` — the deployable site (**never edit by hand**; edit `content/` and rebuild)
 
 ```bash
@@ -27,19 +30,124 @@ Push to `main` and GitHub Actions rebuilds and redeploys automatically (~30s).
 
 ## Pages
 
-`/` · `/about-us/` · `/assisted-living/` · `/respite-care/` · `/amenities/` ·
-`/gallery/` · `/rates-floor-plans/` · `/reviews/` · `/blog/` · `/news/` ·
-`/contact-us/` · `/thank-you/` · `/privacy-policy/` · `/terms-of-service/` ·
-`/ada-compliance/` · `/nondiscrimination/` · `404`
+`/` · `/about-us/` · `/assisted-living/` · `/respite-care/` (with the booking request form) ·
+`/amenities/` · `/gallery/` · `/rates-floor-plans/` · `/reviews/` · `/activities-calendar/` ·
+`/reserve/` · `/paying-for-senior-living/` · `/blog/` · `/news/` · `/contact-us/` ·
+`/visit/` (noindex, out of the sitemap) · `/team/` (noindex, no Google tag, out of the sitemap) ·
+`/thank-you/` · `/privacy-policy/` · `/terms-of-service/` · `/ada-compliance/` · `/nondiscrimination/` · `404`
+
+### Utility links (Resident Portal, Staff Login)
+
+Two constants at the top of `build.py` drive the Resident Portal link (nav + footer) and the
+Staff Login (UKG Ready) link (Team Login dropdown + footer):
+
+```python
+RESIDENT_PORTAL_URL = ""
+STAFF_LOGIN_URL = ""
+```
+
+While a constant is an empty string that link is not rendered anywhere. Paste the URL ownership
+supplies, rebuild, commit. The `/team/` Team Portal link is always shown. The header button reads
+"Reserve a Suite" while `content/reserve.html` exists, otherwise "Schedule a Tour".
+
+### Payer rule
+
+Regency House is private pay and **welcomes participants enrolled in PACE** (Program of
+All-Inclusive Care for the Elderly; in Hamilton County, Ascension Living Alexian PACE). Those are
+the only two payer mentions allowed. Never state or imply that Medicaid, TennCare CHOICES,
+Medicare, VA benefits or long-term care insurance are accepted or billed; general explanations
+with "confirm with a benefits counselor" are fine (see `/paying-for-senior-living/`).
+
+## Lead forms
+
+Every form on the site carries `data-lead-form` and goes through one sender in
+`public/assets/js/main.js`: the contact form, the respite booking request, the Reserve a Suite
+request, Book Your Visit, the chat callback and Share an article. The sender screens the
+submission (honeypots, a 3-second minimum, `window.rhSpam` link/word/script rules, job-seeker and
+vendor redirection to the main line, a 10-digit phone check), then POSTs to the Zapier lead hook
+(`LEAD_HOOK`, field `rh_src=hixsonregencyhouse`); if the hook does not answer in 10 seconds it
+falls back to the FormSubmit AJAX alias from `content/contact-us.html`, and if both fail the
+visitor is shown the main line. Successful sends land on `/thank-you/`, which counts one GA4
+`generate_lead` per browser session.
+
+Every lead carries `source` (the form's `_subject`: "NEW LEAD — hixsonregencyhouse.com contact
+form", "Respite booking request", "Reserve a suite", "Book a visit", "Chat callback request",
+"Share an article"), `page`, `reason=primary`, `rh_src`, `hp`, `el` (ms since page load),
+`lead_source` (`google_ads`, `utm source / medium`, `referral: host` or `direct`) and the raw
+first-touch keys when present (`gclid`, `gbraid`, `wbraid`, `utm_*`, `referrer`, `landing_page`,
+remembered per browser session in `sessionStorage.rh_attr`). Form-specific fields: respite
+`check_in`, `check_out`, `nights`, `stay_type`, `suite_preference`, `notes`,
+`agreed_to_booking_rules`; reserve `stay_type`, `apartment_preference`, `timing`, `notes`,
+`inquiry_from`; visit `visit_day`, `visit_time`, `lead_id`; chat `chat_question`, `interest`,
+`inquiry_from`; share `article_url`, `article_note`. Fields whose name starts with `_` are
+FormSubmit instructions and never reach the hook.
+
+To test without posting anything real: serve `public/` locally and intercept the hook with
+Playwright (`page.route`), as the headless suite used before each release does.
+
+## Ask-us chat (`public/assets/js/chat.js`)
+
+A keyword knowledge base, no AI service. Answers come only from facts published on this site:
+one inclusive rate quoted by phone (never a number), private pay plus PACE, Medicare does not
+pay room and board, availability by phone, respite, no memory care (families needing a secure
+setting are pointed to a licensed one), dining, apartments, pets ("ask us when you call"),
+location, hours, jobs (call the main line). Edit the `KB` array to change an answer. The callback
+form is an ordinary lead form (source "Chat callback request", `chat_question` carries the
+visitor's questions). The chat does not load on `/team/`.
+
+## Activities calendar
+
+`/activities-calendar/` renders `content/calendar.json` through `render_calendar()` in
+`build.py`. While `days` is empty the page shows "This month's calendar is at the front desk;
+call (423) 870-0050". To publish a month, fill it in and rebuild:
+
+```json
+{
+ "month": "December",
+ "year": 2026,
+ "note": "All activities are subject to change. Families are always welcome to join. Call (423) 870-0050 to plan a visit around an event.",
+ "special": { "25": "Christmas Day", "31": "New Year's Eve" },
+ "days": {
+  "1": ["10:00 Seated exercise", "2:00 Bingo", "6:30 Movie night"],
+  "2": ["10:30 Devotional", "2:00 Crafts: holiday wreaths"],
+  "25": ["12:00 Christmas dinner with families"]
+ }
+}
+```
+
+Keys in `days` and `special` are the day of the month as a string; each event is "time title"
+(a leading time is shown in bold) or plain text. No names of residents or staff.
+
+## Team Login (`/team/`)
+
+A staff page encrypted in the browser (AES-256-GCM; PBKDF2 per user) built by
+`scripts/team-gate.mjs`. The readable page and the passwords are **never committed**; they live
+in two private files outside the repo:
+
+```bash
+node scripts/team-gate.mjs /path/outside/repo/content.html /path/outside/repo/users.json
+python3 build.py && git add content/team.html && git commit -m "Team Login: update"
+```
+
+`content.html` is the HTML shown after sign-in (it must contain a Sign out button with
+`id="rh-signout"`); `users.json` is `[{"username": "...", "password": "..."}]` with 12+ random
+characters from `ABCDEFGHJKLMNPQRSTUVWXYZ23456789` per password (passwords ignore case, spaces
+and dashes). The script refuses input paths inside the repo. Re-running rotates the page key and
+signs everyone out everywhere; to remove a person, re-run without them. `/team/` is noindex,
+carries no Google tag, and its CSP allows only this site's scripts. Current page: links to the
+Staff Login (UKG Ready) and Resident Portal placeholders, the lead tracker placeholder and the
+facility phone. Credentials are held by ownership, not in this repo.
 
 **No memory care page.** The community's licence carries no Alzheimer's or
 dementia unit designation, so memory care is absent by design — not an
 omission. The same rule applies to every article and news item: Regency House
-offers assisted living and respite care, private pay only. Never publish
-prices, specials, the licence number, or the names of staff or residents, and
-never imply that Medicaid, TennCare, VA benefits or insurance are accepted.
+offers assisted living and respite care, private pay (PACE participants welcome).
+Never publish prices, specials, deposits, availability counts, the licence
+number, or the names of ownership, staff or residents, and never imply that
+Medicaid, TennCare, VA benefits or insurance are accepted. No merch, no
+online checkout or deposits.
 
-## Blog (Family Resources)
+## Blog (Guides & Resources)
 
 - One file per post in `content/blog/<slug>.html`. Same `<!--meta -->` block as a page, plus `date` (YYYY-MM-DD, required), `headline`, `excerpt`, `image` (a `/assets/img/...` path), `image_alt`, `author`, `tags` (comma separated), `keyword`, `updated`, and `status` (`published` or `draft`; drafts are skipped).
 - The body is HTML (paragraphs, `h2`/`h3`, lists). `{{phone_fmt}}` and `{{phone_tel}}` work inside posts and resolve to `(423) 870-0050` and `tel:4238700050`. A sibling `content/blog/<slug>.head.html` is injected into `<head>` (extra schema, etc.); FAQ accordions in a post get FAQPage schema automatically, like the pages.

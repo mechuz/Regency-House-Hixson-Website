@@ -4,8 +4,18 @@ Business: Regency House Assisted Living, 2062 Hamill Road, Hixson, TN 37343.
 Phone (423) 870-0050 (only number). Email info@hixsonregencyhouse.com.
 Site https://www.hixsonregencyhouse.com (GitHub Pages, repo mechuz/Regency-House-Hixson-Website).
 Old domain regencyhouse-hixson.com (GoDaddy): to be 301-forwarded to the site.
-Rules: private pay only; no memory care or skilled nursing; no prices, specials or
-licence number; never name ownership, staff or residents. Time zone America/New_York.
+Rules: private pay, PACE participants welcome (Ascension Living Alexian PACE in Hamilton
+County); never imply Medicaid, TennCare, Medicare, VA or insurance billing; no memory care
+or skilled nursing; no prices, specials, deposits, availability feeds or merch; no licence
+number; never name ownership, staff or residents. Time zone America/New_York.
+
+Pages beyond the originals: /activities-calendar/ (content/calendar.json), /reserve/,
+/paying-for-senior-living/, /visit/ (noindex), /team/ (noindex, encrypted staff page),
+respite booking form on /respite-care/, Share an article on /news/, Ask-us chat on every
+public page. Every form posts to the lead hook below through main.js (field rh_src).
+
+build.py constants (empty = link not rendered): RESIDENT_PORTAL_URL = "" and
+STAFF_LOGIN_URL = "" (UKG Ready). Ownership supplies both URLs.
 
 | System | ID |
 |---|---|
@@ -21,6 +31,10 @@ licence number; never name ownership, staff or residents. Time zone America/New_
 | Manual Post Queue | tblRPDLBg8zvZTEsW |
 | Lead hook (Zapier durable workflow) | 01a1c623-9709-788e-b8ed-cfe0a9c64e3e |
 | Lead hook catch URL | https://hooks.zapier.com/hooks/catch/27563206/RAc4ZhMQP7nwB023/ |
+| Lead "source" values the hook receives | NEW LEAD — hixsonregencyhouse.com contact form; Respite booking request; Reserve a suite; Book a visit; Chat callback request; Share an article |
+| Team Login (/team/) | username `regency`; password held by ownership (not in this repo); rebuild with scripts/team-gate.mjs from private files outside the repo |
+| Resident Portal URL | not supplied yet (RESIDENT_PORTAL_URL in build.py) |
+| Staff Login UKG Ready URL | not supplied yet (STAFF_LOGIN_URL in build.py) |
 | FormSubmit fallback | formsubmit.co/51b2551f2845c13f18729befdff08eb7 (activated for this domain) |
 | Google Business Profile | Maps CID 12980515714540227546; claim pending (ownership) |
 | GA4 property | not created yet |
