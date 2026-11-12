@@ -619,15 +619,18 @@ h3 { font-weight: 600; font-size: 1.15rem; }
 .site-footer h3 { text-transform: none; letter-spacing: 0; font-size: 1.05rem; }
 
 .main-nav a, .main-nav .has-sub > button, .phone-link { font-family: var(--font-ui); font-weight: 600; font-size: 0.95rem; }
-/* Desktop header must never overflow the viewport: tighten between 1181 and 1480px. */
-@media (min-width: 1181px) and (max-width: 1480px) {
+/* Desktop header: nine links plus the phone and the Reserve button must fit on one
+   line without overlapping the logo at any width from 1181px up. */
+@media (min-width: 1181px) {
+  .header-inner { max-width: 1400px; }
   .main-nav a, .main-nav .has-sub > button { font-size: 0.9rem; }
-  .main-nav ul { gap: 0.95rem; }
+  .main-nav ul { gap: 0.95rem; justify-content: flex-start; }
   .brand img { width: 220px; }
-  .header-cta { gap: 0.75rem; }
+  .header-cta { gap: 0.75rem; flex-shrink: 0; }
   .header-cta .btn { padding: 0.65rem 1.1rem; font-size: 0.9rem; }
 }
-@media (min-width: 1181px) and (max-width: 1320px) { .phone-link { display: none; } }
+@media (min-width: 1181px) and (max-width: 1365px) { .main-nav ul { gap: 0.7rem; } .main-nav a, .main-nav .has-sub > button { font-size: 0.86rem; } .brand img { width: 200px; } }
+@media (min-width: 1181px) and (max-width: 1365px) { .phone-link { display: none; } }
 .feature-strip li, .pillars strong, .icon-grid strong, .card h3, .contact-info-card h3, .site-footer h3, .testimonial cite { font-family: var(--font-ui); }
 .icon-grid strong { font-size: 1.02rem; font-weight: 600; }
 
