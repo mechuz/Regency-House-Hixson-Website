@@ -49,3 +49,18 @@ Scheduled routines (bound to the CMO session):
 - Hixson Content Editor (daily 9:17 AM ET)
 - Hixson Monday Report (Mon 7:47 AM ET)
 - GitHub Actions publisher: publish-blog.yml daily 15:30 UTC (needs repo secret AIRTABLE_TOKEN)
+
+## Lead tracker (Airtable base applGKPSaitAuNQfZ), built 2026-11-11
+
+| Item | ID / URL |
+|---|---|
+| Leads table | tblRvLZylX70CZIFO (call fields: What happened on the call? fldHCfOCpSoBxl2sg, What's next? fldHQY9PwOS1S3tre, Call back on fldCVyjUtaDqqwfeY, Notes (optional) fldqqNDYsfdDwvauq, Last Touch Date fldXi7hlViDGinymJ, Touch Count fldq5Ik0fyCk82ugl, Last call result fld0bVLCWO0w7D1kk, call_priority fldaoLo0kDRd3XqLP; formulas Open? fldtnWZNZrPXGlWnU, Who to call fldpSfRVxV9vszVD1, Heads up flddl9BGDuZ9I8aIr, Reminder fldNrhqt28vyAtEWq, Call order fldcnMuLIFNSWizQV, Today order fldaDILdtARvBW9u9) |
+| Referral Sources table | tblQF0Vb1VeuUZXWS |
+| Automation: Website lead -> Leads row | wfliXbPKvMb95IjqV (webhook from the Zapier lead hook; must be switched ON by a person) |
+| Automation: after a call is logged | wflg4OnzCsYd3gqCo (must be tested and switched ON by a person) |
+| Interface "Regency House Calls" (staff) | pbdVTws5ZukL2Hth2: My Calls Today paggNRU7GLeYTtMEQ, Find a Family pagRFEkCx9ojEGRd2, Referral Partners pag72HHRUda4xUwMI, Call a Family pagSWeYJF5AFyeUxH, Partner Detail pagWduE7REAV96jBd |
+| Interface "Regency House Lead Tracker" (managers) | pbdTarEFEhgjSkUTI: All Leads pag51za11xzBT8XH3, Tours & Applications page6MOdixjZjbHc2, Closed & Moved In pagv3JTNmDVrSPJJM, Results pagySlD2PONqad6Jc |
+| Routines (this session) | Hixson Lead Intake every 2 h (trig_01ECWnFnkjcEDEZvZmpWGDrJ); Hixson Daily Call List weekdays 7:43 ET (trig_01JHJU6JWhpjKsqmq6dNTzRN) |
+| Zapier lead hook | workflow 01a1c623-9709-788e-b8ed-cfe0a9c64e3e, version published 2026-11-11 with the Airtable tracker step |
+
+Page links are https://airtable.com/applGKPSaitAuNQfZ/<pageId>. Staff are invited to the Calls interface only (Editor for the caller, Read only for overseers); never to the base.
