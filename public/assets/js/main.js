@@ -17,10 +17,17 @@ var FS_AJAX = "https://formsubmit.co/ajax/51b2551f2845c13f18729befdff08eb7";
   var toggle = document.querySelector(".nav-toggle");
   var nav = document.querySelector(".main-nav");
   if (toggle && nav) {
-    toggle.addEventListener("click", function () {
-      var open = nav.classList.toggle("open");
+    var setOpen = function (open) {
+      nav.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    });
+      // Lock the page behind the menu so only the menu scrolls on a phone.
+      document.body.classList.toggle("nav-locked", open && window.matchMedia("(max-width: 1180px)").matches);
+    };
+    toggle.addEventListener("click", function () { setOpen(!nav.classList.contains("open")); });
+    nav.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && nav.classList.contains("open")) { setOpen(false); toggle.focus(); } });
+    document.addEventListener("click", function (e) { if (nav.classList.contains("open") && !e.target.closest(".main-nav")) setOpen(false); });
+    window.addEventListener("resize", function () { if (window.innerWidth > 1180 && nav.classList.contains("open")) setOpen(false); });
   }
 })();
 

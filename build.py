@@ -69,8 +69,10 @@ def utility_tokens():
     }
     if (CONTENT / "reserve.html").exists():
         tok["header_primary"] = '<a href="/reserve/" class="btn btn-primary header-tour" data-track="reserve-header">Reserve a Suite</a>'
+        tok["nav_action_primary"] = '<a href="/reserve/" class="btn btn-primary" data-track="reserve-menu">Reserve a Suite</a>'
     else:
         tok["header_primary"] = '<a href="/contact-us/" class="btn btn-primary header-tour">Schedule a Tour</a>'
+        tok["nav_action_primary"] = '<a href="/contact-us/" class="btn btn-primary">Schedule a Tour</a>'
     return tok
 
 ICONS = {
