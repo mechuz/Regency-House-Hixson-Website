@@ -32,7 +32,7 @@ STAFF_LOGIN_URL = "" (UKG Ready). Ownership supplies both URLs.
 | Lead hook (Zapier durable workflow) | 01a1c623-9709-788e-b8ed-cfe0a9c64e3e |
 | Lead hook catch URL | https://hooks.zapier.com/hooks/catch/27563206/RAc4ZhMQP7nwB023/ |
 | Lead "source" values the hook receives | NEW LEAD — hixsonregencyhouse.com contact form; Respite booking request; Reserve a suite; Book a visit; Chat callback request; Share an article |
-| Team Login (/team/) | username `regency`; password held by ownership (not in this repo); rebuild with scripts/team-gate.mjs from private files outside the repo |
+| Team Login (/team/) | three logins: `kelli` (executive director), `frontdesk` (shared reception login), `owner` (ownership); passwords held by ownership, never in this repo; rebuild with scripts/team-gate.mjs from private files outside the repo (re-running signs everyone out) |
 | Resident Portal URL | not supplied yet (RESIDENT_PORTAL_URL in build.py) |
 | Staff Login UKG Ready URL | not supplied yet (STAFF_LOGIN_URL in build.py) |
 | FormSubmit fallback | formsubmit.co/51b2551f2845c13f18729befdff08eb7 (activated for this domain) |

@@ -889,3 +889,8 @@ h3 { font-weight: 600; font-size: 1.15rem; }
 .news-share { margin-top: 3rem; background: var(--paper); border-radius: var(--radius); border-top: 3px solid var(--gold); padding: clamp(1.5rem, 4vw, 2.25rem); }
 .news-share h2 { font-size: 1.4rem; margin-bottom: 0.4rem; }
 .news-share .form-row { margin-top: 1rem; }
+
+/* Team Login: a staff page, so no visitor call-to-action band and a compact footer. */
+body[data-page="team"] .cta-band { display: none; }
+body[data-page="team"] .site-footer .footer-grid { display: none; }
+body[data-page="team"] .site-footer .badges, body[data-page="team"] .site-footer .footer-legal { display: none; }

@@ -131,12 +131,23 @@
     });
   });
 
+  // Show / hide the password (tapping a 16-character code blind is error-prone on a phone).
+  var showEl = document.getElementById("rh-show");
+  if (showEl) showEl.addEventListener("click", function () {
+    var show = passEl.type === "password";
+    passEl.type = show ? "text" : "password";
+    showEl.textContent = show ? "Hide" : "Show";
+    showEl.setAttribute("aria-pressed", show ? "true" : "false");
+    showEl.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    passEl.focus();
+  });
+
   var saved = store(true);
   if (saved) {
     var raw;
     try { raw = b64d(saved); } catch (e) { raw = null; }
     if (raw) {
-      openWith(raw).catch(function () { store(false, null); fields.disabled = false; });
+      openWith(raw).catch(function () { store(false, null); fields.disabled = false; userEl.focus(); });
       return;
     }
     store(false, null);

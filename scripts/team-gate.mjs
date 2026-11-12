@@ -101,16 +101,19 @@ analytics: no
     <div id="rh-gate">
       <p class="eyebrow center">Regency House Team</p>
       <h1 class="center">Team Login</h1>
-      <p class="center" style="margin-top:0.75rem">For Regency House staff only. Sign in with the username and password ownership gave you.</p>
+      <p class="center" style="margin-top:0.75rem">For Regency House staff only. Sign in once with the username and password ownership gave you; this phone or computer stays signed in.</p>
       <form id="rh-gate-form" class="card" style="margin:1.75rem auto 0;max-width:440px" novalidate>
         <fieldset id="rh-gate-fields" disabled style="border:0;margin:0;padding:1.5rem">
           <div class="form-row">
             <label for="rh-user">Username</label>
-            <input type="text" id="rh-user" name="username" required autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
+            <input type="text" id="rh-user" name="username" required autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" inputmode="text" style="font-size:1.1rem">
           </div>
           <div class="form-row">
-            <label for="rh-pass">Password</label>
-            <input type="password" id="rh-pass" name="password" required autocomplete="current-password">
+            <label for="rh-pass">Password <small style="font-weight:normal;color:var(--text-muted)">(capitals, spaces and dashes do not matter)</small></label>
+            <div style="display:flex;gap:0.5rem;align-items:stretch">
+              <input type="password" id="rh-pass" name="password" required autocomplete="current-password" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go" style="flex:1;min-width:0;font-size:1.1rem;letter-spacing:0.08em">
+              <button type="button" id="rh-show" class="btn btn-light" aria-pressed="false" aria-label="Show password" style="padding:0 1rem;flex:none">Show</button>
+            </div>
           </div>
           <div class="form-row">
             <label for="rh-remember" style="font-weight:normal;display:flex;align-items:center;gap:0.6rem;cursor:pointer"><input type="checkbox" id="rh-remember" checked style="width:1.35rem;height:1.35rem;margin:0;flex:none"> Keep me signed in on this phone or computer for 180 days (untick on a shared computer)</label>
@@ -119,6 +122,7 @@ analytics: no
           <p id="rh-gate-msg" role="alert" aria-live="polite" style="margin:1rem 0 0;min-height:1.5em"></p>
         </fieldset>
       </form>
+      <p class="center form-note" style="margin-top:1.25rem">Forgot your sign-in or need one? Ask ownership. Never share it with anyone outside the team.</p>
       <noscript><p class="center">This page needs JavaScript turned on.</p></noscript>
     </div>
     <div id="rh-team" hidden></div>
