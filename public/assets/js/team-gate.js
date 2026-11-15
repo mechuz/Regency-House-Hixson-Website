@@ -81,8 +81,8 @@
       var iconSteps = team.querySelector("[data-rh-icon-steps]");
       if (iconBtn && iconSteps) iconBtn.addEventListener("click", function () {
         try { history.replaceState(null, "", location.pathname + "#calls"); } catch (e) {}
-        iconSteps.hidden = false;
-        iconBtn.hidden = true;
+        iconSteps.hidden = false; iconSteps.style.display = "";
+        iconBtn.hidden = true; iconBtn.style.display = "none";
       });
       // Opened from the home-screen icon (/team/#calls): go straight to My Calls Today.
       var go = team.querySelector('a[data-go="calls"]');
