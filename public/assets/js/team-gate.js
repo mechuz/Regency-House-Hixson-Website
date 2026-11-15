@@ -86,7 +86,31 @@
       });
       // Opened from the home-screen icon (/team/#calls): go straight to My Calls Today.
       var go = team.querySelector('a[data-go="calls"]');
-      if (go && location.hash === "#calls") location.assign(go.href);
+      if (go && location.hash === "#calls") { location.assign(go.href); return; }
+      // First sign-in on this device: show the walkthrough first, the tools after "Got it".
+      // Later sign-ins go straight to the tools; "How it works" reopens the walkthrough.
+      var intro = team.querySelector("[data-rh-intro]");
+      var tools = team.querySelector("[data-rh-tools]");
+      if (intro && tools) {
+        var INTRO = "rh_portal_intro_seen";
+        var seen = false;
+        try { seen = window.localStorage.getItem(INTRO) === "1"; } catch (e) {}
+        function show(el, on) { el.hidden = !on; el.style.display = on ? "" : "none"; }
+        function showIntro(first) {
+          show(intro, true); show(tools, !first);
+          try { window.scrollTo(0, 0); } catch (e) {}
+        }
+        function showTools() {
+          show(intro, false); show(tools, true);
+          try { window.localStorage.setItem(INTRO, "1"); } catch (e) {}
+          try { window.scrollTo(0, 0); } catch (e) {}
+        }
+        if (!seen) showIntro(true);
+        var done = team.querySelector("[data-rh-intro-done]");
+        if (done) done.addEventListener("click", showTools);
+        var open = team.querySelector("[data-rh-intro-open]");
+        if (open) open.addEventListener("click", function (ev) { ev.preventDefault(); showIntro(false); });
+      }
     });
   }
 
