@@ -48,7 +48,10 @@ Scheduled routines (bound to the CMO session):
 - Hixson Blog Writer (Sun/Mon/Wed/Fri 8:37 AM ET)
 - Hixson Content Editor (daily 9:17 AM ET)
 - Hixson Monday Report (Mon 7:47 AM ET)
-- GitHub Actions publisher: publish-blog.yml daily 15:30 UTC (needs repo secret AIRTABLE_TOKEN)
+- Hixson Publisher (daily 11:51 AM ET, trig_01DTq4P2jDUwZp46owFyxFyo): runs publish_from_airtable.py through
+  scripts/airtable_stub.py with rows exported via the Airtable connector, commits to main, marks rows Published
+- GitHub Actions publisher: publish-blog.yml daily 15:30 UTC (idle until the repo secret AIRTABLE_TOKEN exists;
+  when it does, the scheduled task above stands down)
 
 ## Lead tracker (Airtable base applGKPSaitAuNQfZ), built 2026-11-11
 
