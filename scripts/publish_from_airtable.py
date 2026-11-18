@@ -404,7 +404,11 @@ def prepare_one(rec, due_at, manifest):
             if isinstance(topic, dict):
                 topic = topic.get("name")
             if topic:
-                tags.append(one_line(topic, 40).lower())
+                t = one_line(topic)
+                t = t.split(":")[0]                   # the part before a subtitle
+                if len(t) > 40:                      # cut at a word, never mid-word
+                    t = t[:40].rsplit(" ", 1)[0]
+                tags.append(t.lower())
         except RuntimeError:
             pass
     if kw:
