@@ -7,6 +7,7 @@ same updates can be applied through the connector afterwards.
     python3 scripts/airtable_stub.py 8765 &
     AIRTABLE_API_URL=http://127.0.0.1:8765/v0 AIRTABLE_TOKEN=local python3 scripts/publish_from_airtable.py prepare
 """
+import json, sys, urllib.parse
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 def norm(v):
