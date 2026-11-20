@@ -38,6 +38,13 @@ TABLES = {
     ],
 }
 
+import os
+for _name, _tbl in (("photos.json", "tbl2kgdwv5SgogY5v"), ("topics.json", "tbloItRRgsodfBCnE")):
+    if os.path.exists(_name):
+        _have = {r["id"] for r in TABLES[_tbl]}
+        TABLES[_tbl] += [r for r in load(_name) if r["id"] not in _have]
+
+
 class H(BaseHTTPRequestHandler):
     def log_message(self, *a): pass
     def _send(self, code, obj):
